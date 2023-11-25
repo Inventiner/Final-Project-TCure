@@ -45,6 +45,14 @@ public class Player {
 		this.targetY = y;
 	}
 	
+	public int getX() {
+		return this.x;
+	}
+
+	public int getY() {
+		return this.y;
+	}
+	
 	public void draw(Graphics g) {
 //		System.out.println("x: " + x + " target x: " + targetX);
 //		System.out.println("y: " + x + " target y: " + targetX);

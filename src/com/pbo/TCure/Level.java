@@ -8,6 +8,7 @@ import org.graalvm.compiler.nodes.java.AbstractNewArrayNode;
 abstract public class Level {
 	private int[][] level;
 	private int width, height, unitSize;
+	boolean win = false;
 	
 	public Level() {		
 	}
@@ -49,6 +50,11 @@ abstract public class Level {
 
 	public void setUnitSize(int unitSize) {
 		this.unitSize = unitSize;
+	}
+	
+	public boolean getWin() {
+		if(win) return true;
+		else return false;
 	}
 
 	abstract public void draw(Graphics g);
