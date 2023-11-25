@@ -3,6 +3,7 @@ package com.pbo.TCure;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -45,6 +46,8 @@ public class Player {
 	}
 	
 	public void draw(Graphics g) {
+//		System.out.println("x: " + x + " target x: " + targetX);
+//		System.out.println("y: " + x + " target y: " + targetX);
 		if(this.init) {
 			if(this.x != this.targetX) {
 				if(this.x < this.targetX) {
@@ -55,10 +58,10 @@ public class Player {
 				}
 			}
 			if(this.y != this.targetY) {
-				if(this.y < this.targetX) {
+				if(this.y < this.targetY) {
 					this.y += 2;
 				}
-				else{
+				else {
 					this.y -= 2;
 				}
 			}

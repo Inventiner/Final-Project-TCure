@@ -60,11 +60,6 @@ public class Level1 extends Level{
 						player = new Player(j * boxW, i * boxH, getUnitSize(), getUnitSize());
 						drawPlayer(g);
 					}
-					else {
-						charX = j;
-						charY = i;
-						player.update(j * boxW, i * boxH);
-					}
 					break;
 					
 				default:
@@ -87,16 +82,13 @@ public class Level1 extends Level{
 				moving = false;
 			}
 		} else if(e.getKeyCode() == KeyEvent.VK_UP) {
-			if(!moving && level[charY - 1][charX] == 0) {
+			if(!moving && charY - 1 >= 0 && level[charY - 1][charX] == 0) {
 				moving = true;
 				do {
 					level[charY][charX] = 0;
 					level[charY - 1][charX] = 2;
 					charY -= 1;
 					moving = true;
-					if(charY - 1 >= 0) {
-						break;
-					}
 				} while(level[charY - 1][charX] != 1);
 				moving = false;
 			}
@@ -121,7 +113,8 @@ public class Level1 extends Level{
 				moving = false;
 			}
 		}
-		
+		System.out.println("New X Target: " + charX * getUnitSize() + "New Y Target: " + charY * getUnitSize());
+		player.update(charX * getUnitSize(), charY * getUnitSize());
 	}
 	
 	@Override
