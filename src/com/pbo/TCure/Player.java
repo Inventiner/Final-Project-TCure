@@ -3,7 +3,6 @@ package com.pbo.TCure;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -13,7 +12,7 @@ import javax.imageio.ImageIO;
 public class Player {
 	private boolean init = false;
 	private int x, y, width, height;
-	private int targetX, targetY;
+	private int targetX, targetY, winX, winY;
 	private static BufferedImage asset;
 	
 	public Player() {
@@ -52,10 +51,28 @@ public class Player {
 	public int getY() {
 		return this.y;
 	}
+
+	public void setWinX(int winX) {
+		this.winX = winX;
+	}
+
+	public void setWinY(int winY) {
+		this.winY = winY;
+	}
+
+	public boolean isWin() {
+		return(this.winX == this.x && this.winY == this.y);
+	}
+	
+	public boolean getMoving() {
+		if(this.x != this.targetX || this.y != this.targetY) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
 	public void draw(Graphics g) {
-//		System.out.println("x: " + x + " target x: " + targetX);
-//		System.out.println("y: " + x + " target y: " + targetX);
 		if(this.init) {
 			if(this.x != this.targetX) {
 				if(this.x < this.targetX) {

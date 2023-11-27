@@ -13,7 +13,7 @@ public class GameFrame extends JFrame {
 		add(gameCanvas, BorderLayout.CENTER);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
-		setLocationRelativeTo(null);
+//		setLocationRelativeTo(null);
 		pack();
 		
 //		addWindowListener(new WindowAdapter() {

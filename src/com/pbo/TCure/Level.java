@@ -3,9 +3,8 @@ package com.pbo.TCure;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
-import org.graalvm.compiler.nodes.java.AbstractNewArrayNode;
-
 abstract public class Level {
+	Player player = new Player();
 	private int[][] level;
 	private int width, height, unitSize;
 	boolean win = false;
@@ -22,6 +21,10 @@ abstract public class Level {
 	
 	public int[][] getLevel() {
 		return level;
+	}
+
+	public Player getPlayer() {
+		return player;
 	}
 
 	public void setLevel(int[][] level) {

@@ -54,8 +54,13 @@ public class GamePanel extends JPanel implements KeyListener{
 	}
 
 	public void draw(Graphics g) {
-		curr_level.draw(g);
-		curr_level.drawPlayer(g);
+		if (curr_level.getWin() && !curr_level.getPlayer().getMoving()) running = false;
+		if(running) {
+			curr_level.draw(g);
+			curr_level.drawPlayer(g);
+		}else {
+			YouWin(g);
+		}
 		repaint();
 	}
 
@@ -73,7 +78,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		curr_level.keyHandler(e);
+		curr_level.keyHandler(e);	
 	}
 
 	@Override

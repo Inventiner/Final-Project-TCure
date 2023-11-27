@@ -3,15 +3,15 @@ package com.pbo.TCure;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 public class Level1 extends Level{
-	Player player = new Player();
-	static int charX, charY;
-	static boolean moving;
+	
+	static int charX, charY, winX, winY;
 	static final int sizeX = 16, sizeY = 16;
+	// 0 = empty, 1 = wall, 2 = player, 3 = goal / finish
 	static final int[][] level = 
-		   {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
+		   {{1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1},
+			{1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -19,9 +19,8 @@ public class Level1 extends Level{
 			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -34,7 +33,6 @@ public class Level1 extends Level{
 	
 	public Level1(int width, int height, int unitSize) {
 		super(level, width, height, unitSize);
-		moving = false;
 	}
 	
 	@Override
@@ -61,56 +59,79 @@ public class Level1 extends Level{
 						drawPlayer(g);
 					}
 					break;
-					
+				case 3:
+					winX = j * boxW;
+					winY = i * boxH;
+					g.setColor(Color.yellow);
+					g.fillRect(j * boxW, i * boxH, boxW, boxH);
+					break;
 				default:
 					break;
 				}
 			}
 		}
+		player.setWinX(winX);
+		player.setWinY(winY);
 	}
 	
 	@Override
 	public void keyHandler(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			if(!moving && charX + 1 < sizeX && level[charY][charX + 1] == 0) {
-				moving = true;
+			if(!player.getMoving() && charX + 1 < sizeX && level[charY][charX + 1] == 0) { //cek apakah bisa gerak ke arah tsb
 				do {
 					level[charY][charX] = 0;
 					level[charY][charX + 1] = 2;
 					charX += 1;
-				} while(level[charY][charX + 1] != 1);
-				moving = false;
+				} while(level[charY][charX + 1] == 0); //gerak terus hingga nabrak tembok / menang / kena musuh (TBA)
+				
+				if(charX + 1 < sizeX && level[charY][charX + 1] == 3) { //cek apakah sampai spot menang
+					win = true;
+				}
 			}
 		} else if(e.getKeyCode() == KeyEvent.VK_UP) {
-			if(!moving && charY - 1 >= 0 && level[charY - 1][charX] == 0) {
-				moving = true;
+			if(!player.getMoving() && charY - 1 >= 0 && level[charY - 1][charX] == 0) {
 				do {
 					level[charY][charX] = 0;
 					level[charY - 1][charX] = 2;
 					charY -= 1;
-					moving = true;
-				} while(level[charY - 1][charX] != 1);
-				moving = false;
+				} while(level[charY - 1][charX] != 1 && level[charY - 1][charX] != 3);
+				
+				if(charY - 1 >= 0 && level[charY - 1][charX] == 3) { //cek apakah sampai spot menang
+					//level[charY][charX] = 0;
+					//level[charY - 1][charX] = 2;
+					//charY -= 1;
+					//player.update(charX * getUnitSize(), charY * getUnitSize());
+					//if(player.isWin()) {
+						win = true;						
+					//}
+				}
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN){
-			if(!moving && charY + 1 < sizeY && level[charY + 1][charX] == 0) {
-				moving = true;
+			if(!player.getMoving() && charY + 1 < sizeY && level[charY + 1][charX] == 0) {
 				do {
 					level[charY][charX] = 0;
 					level[charY + 1][charX] = 2;
 					charY += 1;
-				} while(level[charY + 1][charX] != 1);
-				moving = false;
+				} while(level[charY + 1][charX] != 1 && level[charY + 1][charX] != 3);
+				
+				if(charY + 1 >= 0 && level[charY + 1][charX] == 3)
+				{ //cek apakah sampai spot menang
+					level[charY][charX] = 0;
+					level[charY + 1][charX] = 2;
+					win = true;
+				}
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT){
-			if(!moving && charX - 1 >= 0 && level[charY][charX - 1] == 0) {
-				moving = true;
+			if(!player.getMoving() && charX - 1 >= 0 && level[charY][charX - 1] == 0) {
 				do {
 					level[charY][charX] = 0;
 					level[charY][charX - 1] = 2;
 					charX -= 1;
-				} while(level[charY][charX - 1] != 1);
-				moving = false;
+				} while(level[charY][charX - 1] != 1 && level[charY][charX - 1] != 3);
+				
+				if(charX + 1 < sizeX && level[charY][charX + 1] == 3) { //cek apakah sampai spot menang?
+					win = true;
+				}
 			}
 		}
 		System.out.println("New X Target: " + charX * getUnitSize() + "New Y Target: " + charY * getUnitSize());
