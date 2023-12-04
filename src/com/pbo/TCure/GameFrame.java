@@ -9,7 +9,7 @@ public class GameFrame extends JFrame {
 	
 	public GameFrame() {
 		super("TCure - Early Concept Build");
-		gameCanvas = new GamePanel();
+		gameCanvas = new GamePanel(this);
 		add(gameCanvas, BorderLayout.CENTER);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
@@ -30,5 +30,4 @@ public class GameFrame extends JFrame {
 //		});
 		
 	}
-	
 }

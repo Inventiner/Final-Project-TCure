@@ -1,7 +1,6 @@
 package com.pbo.TCure;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -10,11 +9,13 @@ import java.awt.event.KeyListener;
 import java.util.Random;
 import java.util.Timer;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel implements KeyListener{
-	static final int areaWidth = 640, areaHeight = 640, UNIT_SIZE = 40;
+	static private JFrame gameFrame;
+	static int areaWidth, areaHeight, UNIT_SIZE;
 	static Level curr_level;
 	static final int DELAY = 75;
 	boolean running = false;
@@ -23,26 +24,44 @@ public class GamePanel extends JPanel implements KeyListener{
 	Random random;
 
 
-	public GamePanel() {
+	public GamePanel(JFrame masterFrame) {
+		gameFrame = masterFrame;
+		curr_level = new Level1();
 		addKeyListener(this);
-		setPreferredSize(new Dimension(areaWidth, areaHeight));
+		setPreferredSize(curr_level.getCurrDimension());
+		areaWidth = curr_level.getWidth();
+		areaHeight = curr_level.getHeight();
+		UNIT_SIZE = curr_level.getUnitSize();
 		setBackground(Color.BLACK);
 		setFocusable(true);
-		curr_level = new Level1(areaWidth, areaHeight, UNIT_SIZE);
 
 		startGame();
 	}
-
+	
+	public void changeLevel(Level level) {
+		removeAll();
+		System.out.println(curr_level);
+		curr_level = level;
+		System.out.println(curr_level);
+		setPreferredSize(curr_level.getCurrDimension());
+		areaWidth = curr_level.getWidth();
+		areaHeight = curr_level.getHeight();
+		UNIT_SIZE = curr_level.getUnitSize();
+		gameFrame.pack();
+		startGame();
+		validate();
+		repaint();
+	}
+	
 	public void startGame() {
 		running = true;
 		timer = new Timer();			
 	}
 
-
+	// Draw Grid For Easy seeing grid
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
-		// Draw Grid For Easy seeing grid
+		
 		for(int i = 0; i < areaHeight/UNIT_SIZE; i++) {
 			g.drawLine(i*UNIT_SIZE, 0, i*UNIT_SIZE, areaHeight);
 		}
@@ -69,6 +88,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		g.setFont(new Font("Ink Free", Font.BOLD, 75));
 		FontMetrics metrics = getFontMetrics(g.getFont());
 		g.drawString("YOU WIN!!!", (areaWidth - metrics.stringWidth("YOU WIN!!!"))/2, areaHeight/2);
+		changeLevel(new Level2());
 	}
 
 	@Override

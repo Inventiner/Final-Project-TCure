@@ -75,19 +75,25 @@ public class Player {
 	public void draw(Graphics g) {
 		if(this.init) {
 			if(this.x != this.targetX) {
-				if(this.x < this.targetX) {
+				if(this.x < this.targetX && this.x + 2 < this.targetX) {
 					this.x += 2;
 				}
-				else{
+				else if(this.x > this.targetX && this.x - 2 > this.targetX) {
 					this.x -= 2;
+				}
+				else {
+					this.x = this.targetX;
 				}
 			}
 			if(this.y != this.targetY) {
-				if(this.y < this.targetY) {
+				if(this.y < this.targetY && this.y + 2 < this.targetY) {
 					this.y += 2;
 				}
-				else {
+				else if(this.y > this.targetY && this.y - 2 > this.targetY) {
 					this.y -= 2;
+				}
+				else {
+					this.y = this.targetY;
 				}
 			}
 			
