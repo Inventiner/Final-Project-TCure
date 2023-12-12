@@ -14,6 +14,7 @@ public class Level2 extends Level{
 	static final int sizeX = 16, sizeY = 16;
 	List<Coin> coins;
 	List<Wall> walls;	
+	List<Trap> traps;	
 	// 0 = empty, 1 = wall, 2 = player, 3 = goal / finish
 	static final int[][] levelMapTemplate = 
 		   {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -30,7 +31,7 @@ public class Level2 extends Level{
 			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 			{1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1},
-			{1, 0, 0, 0, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 2, 1, 0, 0, 4, 0, 0, 0, 1},
 			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 	
 	static final int[][] coinMap = 
@@ -55,8 +56,10 @@ public class Level2 extends Level{
 		super(levelMapTemplate, 720, 720, 45);
 		this.player = new Player();
 		this.win = false;
+		this.lose = false;
 		this.coins = new ArrayList<>();
 		this.walls = new ArrayList<>();
+		this.traps = new ArrayList<>();
 		this.point = 0;
 		initCoin();
 		initLevel();
@@ -77,20 +80,23 @@ public class Level2 extends Level{
 		for(int i = 0; i < getHeight()/getUnitSize(); i++) {
 			for(int j = 0; j < getWidth()/getUnitSize(); j++) {
 				switch (levelMap[i][j]) {
-				case 1:
+				case WALL:
 					walls.add(new Wall(j * boxSize, i * boxSize, boxSize, boxSize, assetManager.getWall()));
 					break;
-				case 2:
+				case PLAYER:
 					charX = j;
 					charY = i;
 					player = new Player(j * boxSize, i * boxSize, boxSize, boxSize, 3, assetManager.getPlayer());
 					player.setCoord(j * boxSize, i * boxSize);
 					break;
-				case 3:
+				case WIN:
 					winX = j * boxSize;
 					winY = i * boxSize;
 					player.setWinX(winX);
 					player.setWinY(winY);
+					break;
+				case TRAP:
+					traps.add(new Trap(j * boxSize, i * boxSize, boxSize, boxSize, assetManager.getTrap()));
 					break;
 				default:
 					break;
@@ -111,6 +117,9 @@ public class Level2 extends Level{
 		
 		for (Wall wall : walls) {
 			wall.draw(g, panel);
+		}
+		for (Trap trap : traps) {
+			trap.draw(g, panel);
 		}
 		
 		this.player.draw(g, panel);
