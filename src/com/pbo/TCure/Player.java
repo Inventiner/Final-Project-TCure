@@ -10,6 +10,7 @@ public class Player {
 	private int x, y, width, height;
 	private int targetX, targetY, winX, winY;
 	private static ImageIcon asset;
+	private int health;
 	
 	public Player() {
 	}
@@ -24,8 +25,17 @@ public class Player {
 		this.height = height;
 		this.width = width;
 		this.init = true;
+		this.health = 3;
 	}
 	
+	public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
+	}
+
 	public boolean getstatus() {
 		return this.init;
 	}
