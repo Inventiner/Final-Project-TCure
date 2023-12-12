@@ -120,4 +120,6 @@ abstract public class Level {
 	abstract void drawPlayer(Graphics g, JPanel panel);
 	
 	abstract public Level getNextLevel();
+	
+	abstract public Level RetryLevel();
 }

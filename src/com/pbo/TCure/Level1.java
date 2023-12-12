@@ -187,4 +187,9 @@ public class Level1 extends Level{
 		Level next_level = new Level2();
 		return next_level;
 	}
+	
+	public Level RetryLevel() {
+		Level level = new Level1();
+		return level;
+	}
 }

@@ -22,15 +22,21 @@ public class ParentPanel extends JPanel implements KeyListener{
 		add(new MainMenuPanel(),"MainMenu");
 		add(game, "GameScreen");
 		add(new WinPanel(), "Win");
+		add(new LosePanel(), "Retry");
 	}
 	
 	public void showPanel(String name) {
 		cardlayout.show(this, name);
 		
 		if(name == "GameScreen") {
+			game.changeLevel(game.curr_level.RetryLevel());
 			game.requestFocus();
 		} else if (name == "NextLevel") {
 			game.changeLevel(game.curr_level.getNextLevel());
+			cardlayout.show(this, "GameScreen");
+			game.requestFocus();
+		} else if (name == "Retry") {
+			game.changeLevel(game.curr_level.RetryLevel());
 			cardlayout.show(this, "GameScreen");
 			game.requestFocus();
 		}
