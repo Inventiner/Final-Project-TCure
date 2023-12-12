@@ -6,8 +6,11 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 public class Level1 extends Level{
-	
+	static JPanel panel;
 	static int charX, charY, winX, winY;
 	static final int sizeX = 16, sizeY = 16;
 	List<Coin> coins;
@@ -67,12 +70,12 @@ public class Level1 extends Level{
 	}
 	
 	@Override
-	public void draw(Graphics g) {
+	public void draw(Graphics g, JPanel panel) {
 		int boxW = getUnitSize();
 		int boxH = getUnitSize();
 		
 		for (Coin coin : coins) {
-			coin.draw(g);
+			coin.draw(g, panel);
 		}
 		
 		for(int i = 0; i < getHeight()/getUnitSize(); i++) {
@@ -92,7 +95,7 @@ public class Level1 extends Level{
 						charX = j;
 						charY = i;
 						player = new Player(j * boxW, i * boxH, getUnitSize(), getUnitSize());
-						drawPlayer(g);
+						drawPlayer(g, panel);
 					}
 					break;
 				case 3:
@@ -166,7 +169,7 @@ public class Level1 extends Level{
 					charX -= 1;
 				} while(levelMap[charY][charX - 1] != 1 && levelMap[charY][charX - 1] != 3);
 				
-				if(charX + 1 < sizeX && levelMap[charY][charX + 1] == 3) { //cek apakah sampai spot menang?
+				if(charX - 1 < sizeX && levelMap[charY][charX - 1] == 3) { //cek apakah sampai spot menang?
 					win = true;
 				}
 			}
@@ -176,8 +179,8 @@ public class Level1 extends Level{
 	}
 	
 	@Override
-	public void drawPlayer(Graphics g) {
-		this.player.draw(g);
+	public void drawPlayer(Graphics g, JPanel panel) {
+		this.player.draw(g, panel);
 	}
 	
 	public Level getNextLevel() {

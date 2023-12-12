@@ -2,30 +2,21 @@ package com.pbo.TCure;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-
-import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 public class Player {
 	private boolean init = false;
 	private int x, y, width, height;
 	private int targetX, targetY, winX, winY;
-	private static BufferedImage asset;
+	private static ImageIcon asset;
 	
 	public Player() {
 	}
 	
 	public Player(int x, int y, int width, int height) {
-		URL url = getClass().getResource("Temp-Player.png");
-		File img = new File(url.getPath());
-		try {
-			asset = ImageIO.read(img);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		asset = new ImageIcon("file:assets/Temp-Player.png");
+		
 		this.x = x;
 		this.y = y;
 		this.targetX = x;
@@ -72,7 +63,7 @@ public class Player {
 		}
 	}
 	
-	public void draw(Graphics g) {
+	public void draw(Graphics g, JPanel panel) {
 		if(this.init) {
 			if(this.x != this.targetX) {
 				if(this.x < this.targetX && this.x + 2 < this.targetX) {
@@ -100,7 +91,7 @@ public class Player {
 //			System.out.println("init " + asset);
 			g.setColor(Color.WHITE);
 			g.fillRect(this.x, this.y, width, height);
-			g.drawImage(asset, this.x, this.y, width, height, null);
+			asset.paintIcon(panel, g, this.x, this.y);
 		}
 		else {
 //			System.out.println("not init");
