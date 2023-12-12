@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /*
@@ -48,20 +47,25 @@ import javax.swing.JPanel;
 
 
 abstract public class Level {
-	Player player = new Player();
-	private int[][] levelMap;
+	protected int point;
+	protected Player player = new Player();
+	protected int[][] levelMap;
 	private int width, height, unitSize;
 	boolean win = false;
 	private Dimension currDimension;
+	private assetManager assets;
 	
-	public Level() {		
+	public Level() {
 	}
 	
 	public Level(int[][] level, int width, int height, int unitSize) {
+		this.player = new Player();
+		this.assets = new assetManager();
 		this.levelMap = level;
 		this.width = width;
 		this.height = height;
 		this.unitSize = unitSize;
+		this.point = 0;
 		this.currDimension = new Dimension(width, height);
 	}
 	
@@ -113,6 +117,8 @@ abstract public class Level {
 		return win;
 	}
 
+	abstract public void initCoin();
+	
 	abstract public void draw(Graphics g, JPanel panel);
 	
 	abstract public void keyHandler(KeyEvent e);
@@ -120,4 +126,8 @@ abstract public class Level {
 	abstract void drawPlayer(Graphics g, JPanel panel);
 	
 	abstract public Level getNextLevel();
+
+	public assetManager getAssets() {
+		return assets;
+	}
 }

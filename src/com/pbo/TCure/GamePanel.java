@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
@@ -75,13 +74,13 @@ public class GamePanel extends JPanel implements KeyListener{
 	}
 
 	public void draw(Graphics g) {
-		if (curr_level.getWin() && !curr_level.getPlayer().getMoving()) {
+		if(curr_level.getWin() && !curr_level.getPlayer().getMoving()) {
 			running = false;
 		}
 		if(running) {
 			curr_level.draw(g, this);
 			curr_level.drawPlayer(g, this);
-		}else {
+		} else {
 			YouWin(g);
 		}
 		repaint();

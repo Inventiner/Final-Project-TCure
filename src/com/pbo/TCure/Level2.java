@@ -13,8 +13,9 @@ public class Level2 extends Level{
 	static int charX, charY, winX, winY;
 	static final int sizeX = 16, sizeY = 16;
 	List<Coin> coins;
+	List<Wall> walls;	
 	// 0 = empty, 1 = wall, 2 = player, 3 = goal / finish
-	static final int[][] levelMap = 
+	static final int[][] levelMapTemplate = 
 		   {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3},
 			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1},
@@ -51,68 +52,71 @@ public class Level2 extends Level{
 			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 	
 	public Level2() {
-		super(levelMap, 720, 720, 45);
+		super(levelMapTemplate, 720, 720, 45);
+		this.player = new Player();
 		this.win = false;
 		this.coins = new ArrayList<>();
-		
-		// init coins
+		this.walls = new ArrayList<>();
+		this.point = 0;
+		initCoin();
+		initLevel();
+	}
+	
+	public void initCoin() {
 		for(int i = 0; i < getHeight()/getUnitSize(); i++) {
 			for(int j = 0; j < getWidth()/getUnitSize(); j++) {
-//					System.out.println("i: " + i + " J: " + j);
-				switch (coinMap[i][j]) {
-				case 1:
-					coins.add(new Coin(j * getUnitSize(), i * getUnitSize(), getUnitSize(), getUnitSize()));
-				default:
-					break;
+				if(coinMap[i][j] == 1) {
+					coins.add(new Coin(j * getUnitSize(), i * getUnitSize(), getUnitSize(), getUnitSize(), assetManager.getCoin()));
 				}
 			}
 		}
 	}
 	
-	@Override
-	public void draw(Graphics g, JPanel panel) {
-		int boxW = getUnitSize();
-		int boxH = getUnitSize();
-		
-		for (Coin coin : coins) {
-			coin.draw(g, panel);
-		}
-		
+	public void initLevel() {
+		int boxSize = getUnitSize();
 		for(int i = 0; i < getHeight()/getUnitSize(); i++) {
 			for(int j = 0; j < getWidth()/getUnitSize(); j++) {
-//				System.out.println("i: " + i + " J: " + j);
-				switch (levelMap[i][j]) {  // note to self, kalo mau update g.fillrect jadi class ga boleh di draw, karena nanti numpuk dan laggy
-				case 0:
-//					g.setColor(Color.black);
-//					g.fillRect(j * boxW, i * boxH, boxW, boxH);
-					break;
+				switch (levelMap[i][j]) {
 				case 1:
-					g.setColor(Color.cyan);
-					g.fillRect(j * boxW, i * boxH, boxW, boxH);
+					walls.add(new Wall(j * boxSize, i * boxSize, boxSize, boxSize, assetManager.getWall()));
 					break;
 				case 2:
-					if(!player.getstatus()) {
-						charX = j;
-						charY = i;
-						player = new Player(j * boxW, i * boxH, getUnitSize(), getUnitSize());
-						drawPlayer(g, panel);
-					}
+					charX = j;
+					charY = i;
+					player = new Player(j * boxSize, i * boxSize, boxSize, boxSize, 3, assetManager.getPlayer());
 					break;
 				case 3:
-					winX = j * boxW;
-					winY = i * boxH;
-					System.out.println(winX + ", " + winY);
-					g.setColor(Color.yellow);
-					g.fillRect(j * boxW, i * boxH, boxW, boxH);
+					winX = j * boxSize;
+					winY = i * boxSize;
+					player.setWinX(winX);
+					player.setWinY(winY);
 					break;
 				default:
 					break;
 				}
 			}
+		}	
+	}
+	
+	@Override
+	public void draw(Graphics g, JPanel panel) {
+		for (Coin coin : coins) {
+			if(coin.collide(player.getX(), player.getY())) {
+				point += 10;
+				System.out.println("Point: " + point);
+			}
+			coin.draw(g, panel);
 		}
 		
-		player.setWinX(winX);
-		player.setWinY(winY);
+		for (Wall wall : walls) {
+			wall.draw(g, panel);
+		}
+		
+		drawPlayer(g, panel);
+		
+		// draw win zone
+		g.setColor(Color.yellow);
+		g.fillRect(winX, winY, getUnitSize(), getUnitSize());
 	}
 	
 	@Override
@@ -185,7 +189,8 @@ public class Level2 extends Level{
 	}
 	
 	public Level getNextLevel() {
-		Level next_level = new Level1();
-		return next_level;
+		return new Level1();
+//		Level next_level = new Level1();
+//		return next_level;
 	}
 }
