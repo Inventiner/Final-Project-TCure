@@ -82,6 +82,7 @@ public class Level1 extends Level{
 					charX = j;
 					charY = i;
 					player = new Player(j * boxSize, i * boxSize, boxSize, boxSize, 3, assetManager.getPlayer());
+					player.setCoord(j * boxSize, i * boxSize);
 					break;
 				case 3:
 					winX = j * boxSize;
@@ -110,7 +111,7 @@ public class Level1 extends Level{
 			wall.draw(g, panel);
 		}
 		
-		drawPlayer(g, panel);
+		this.player.draw(g, panel);
 		
 		// draw win zone
 		g.setColor(Color.yellow);
@@ -181,14 +182,7 @@ public class Level1 extends Level{
 		player.update(charX * getUnitSize(), charY * getUnitSize());
 	}
 	
-	@Override
-	public void drawPlayer(Graphics g, JPanel panel) {
-		this.player.draw(g, panel);
-	}
-	
 	public Level getNextLevel() {
 		return new Level2();
-//		Level next_level = new Level2();
-//		return next_level;
 	}
 }

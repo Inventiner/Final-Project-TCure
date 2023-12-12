@@ -119,11 +119,11 @@ abstract public class Level {
 
 	abstract public void initCoin();
 	
+	abstract public void initLevel();
+	
 	abstract public void draw(Graphics g, JPanel panel);
 	
 	abstract public void keyHandler(KeyEvent e);
-	
-	abstract void drawPlayer(Graphics g, JPanel panel);
 	
 	abstract public Level getNextLevel();
 
