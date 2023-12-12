@@ -1,6 +1,6 @@
 package com.pbo.TCure;
 
-import java.awt.Color;
+import java.awt.Color;	
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;

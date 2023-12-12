@@ -5,11 +5,11 @@ import javax.swing.JFrame;
 
 @SuppressWarnings("serial")
 public class GameFrame extends JFrame {
-	public static GamePanel gameCanvas;
+	public static ParentPanel gameCanvas;
 	
 	public GameFrame() {
 		super("TCure - Early Concept Build");
-		gameCanvas = new GamePanel(this);
+		gameCanvas = new ParentPanel(this);
 		add(gameCanvas, BorderLayout.CENTER);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
