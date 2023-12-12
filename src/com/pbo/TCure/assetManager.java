@@ -1,6 +1,6 @@
 package com.pbo.TCure;
 
-import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImage;	
 import javax.imageio.ImageIO;
 
 public class assetManager {
