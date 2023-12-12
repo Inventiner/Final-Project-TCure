@@ -116,4 +116,6 @@ abstract public class Level {
 	abstract public void keyHandler(KeyEvent e);
 	
 	abstract void drawPlayer(Graphics g);
+	
+	abstract public Level getNextLevel();
 }

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
@@ -22,6 +23,7 @@ public class GamePanel extends JPanel implements KeyListener{
 	boolean win = false;
 	Timer timer;
 	Random random;
+	private static int level_index = 1;
 
 
 	public GamePanel(JFrame masterFrame) {
@@ -88,7 +90,11 @@ public class GamePanel extends JPanel implements KeyListener{
 		g.setFont(new Font("Ink Free", Font.BOLD, 75));
 		FontMetrics metrics = getFontMetrics(g.getFont());
 		g.drawString("YOU WIN!!!", (areaWidth - metrics.stringWidth("YOU WIN!!!"))/2, areaHeight/2);
-		changeLevel(new Level2());
+		win();
+	}
+	
+	public int getLevel() {
+		return GamePanel.level_index;
 	}
 
 	@Override
@@ -105,5 +111,10 @@ public class GamePanel extends JPanel implements KeyListener{
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	private void win() {
+		ParentPanel parent = (ParentPanel) getParent();
+		parent.showPanel("Win");
 	}
 }

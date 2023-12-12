@@ -15,14 +15,22 @@ public class WinPanel extends JPanel {
 		setBackground(Color.green); //
 		JLabel label = new JLabel("You Win");
 		JButton BacktoMenu = new JButton("Kembali ke Menu");
+		JButton Next = new JButton("Level Selanjutnya");
 		BacktoMenu.addActionListener(this::BackToMenu);
+		Next.addActionListener(this::nextlevel);
 		add(label);
 		add(BacktoMenu);
+		add(Next);
 	}
 	
 	private void BackToMenu(ActionEvent e) {
 		ParentPanel parent = (ParentPanel) getParent();
 		parent.showPanel("MainMenu");
+	}
+	
+	private void nextlevel(ActionEvent e) {
+		ParentPanel parent = (ParentPanel) getParent();
+		parent.showPanel("NextLevel");
 	}
 	
 	public void YouWin(Graphics g) {

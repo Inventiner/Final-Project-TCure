@@ -179,4 +179,9 @@ public class Level1 extends Level{
 	public void drawPlayer(Graphics g) {
 		this.player.draw(g);
 	}
+	
+	public Level getNextLevel() {
+		Level next_level = new Level2();
+		return next_level;
+	}
 }
