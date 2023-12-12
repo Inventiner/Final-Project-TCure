@@ -2,34 +2,24 @@ package com.pbo.TCure;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
+import java.awt.Image;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class Coin {
-	private boolean get = false;
+	private boolean taken = false;
 	private int x, y, width, height;
-	private static ImageIcon asset;
+	private static Image asset;
 	
 	public Coin() {
 	}
 	
-	public Coin(int x, int y, int width, int height) {
-		asset = new ImageIcon("file:assets/Temp-Coin.png");
-	
+	public Coin(int x, int y, int width, int height, Image img) {
 		this.x = x;
 		this.y = y;
 		this.height = height;
 		this.width = width;
-	}
-	
-	public boolean getstatus() {
-		return this.get;
+		asset = img;
 	}
 	
 	public int getX() {
@@ -41,13 +31,22 @@ public class Coin {
 	}
 	
 	public void draw(Graphics g, JPanel panel) {
-		if(!this.get) {
-			g.setColor(Color.yellow);
+		if(this.taken) {
+			g.setColor(new Color(151, 151, 151, 50));
 			g.fillOval(x, y, width, height);
-			asset.paintIcon(panel, g, this.x, this.y);
+		} else {
+			g.setColor(Color.yellow);				
+			g.drawImage(asset, x, y, width, height, panel);
 		}
-		else {
-//			System.out.println("not init");
+	}
+	
+	public boolean collide(int playerX, int playerY) {
+		if(this.taken) {
+			return false;
+		} else if(playerX < (this.x + this.width) && playerX >= this.x && playerY < (this.y + this.height) && playerY >= this.y) {
+			this.taken = true;
+			return true;
 		}
+		return false;
 	}
 }

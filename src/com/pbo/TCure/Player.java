@@ -1,22 +1,21 @@
 package com.pbo.TCure;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import javax.swing.ImageIcon;
+import java.awt.Image;
 import javax.swing.JPanel;
 
 public class Player {
 	private boolean init = false;
 	private int x, y, width, height;
 	private int targetX, targetY, winX, winY;
-	private static ImageIcon asset;
+	private int speed;
+	private static Image asset;
 	
 	public Player() {
 	}
 	
-	public Player(int x, int y, int width, int height) {
-		asset = new ImageIcon("file:assets/Temp-Player.png");
-		
+	public Player(int x, int y, int width, int height, int speed, Image img) {
+		asset = img;
 		this.x = x;
 		this.y = y;
 		this.targetX = x;
@@ -24,6 +23,7 @@ public class Player {
 		this.height = height;
 		this.width = width;
 		this.init = true;
+		this.speed = speed;
 	}
 	
 	public boolean getstatus() {
@@ -66,32 +66,30 @@ public class Player {
 	public void draw(Graphics g, JPanel panel) {
 		if(this.init) {
 			if(this.x != this.targetX) {
-				if(this.x < this.targetX && this.x + 2 < this.targetX) {
-					this.x += 2;
+				if(this.x < this.targetX && this.x + this.speed < this.targetX) {
+					this.x += this.speed;
 				}
-				else if(this.x > this.targetX && this.x - 2 > this.targetX) {
-					this.x -= 2;
+				else if(this.x > this.targetX && this.x - this.speed > this.targetX) {
+					this.x -= this.speed;
 				}
 				else {
 					this.x = this.targetX;
 				}
 			}
 			if(this.y != this.targetY) {
-				if(this.y < this.targetY && this.y + 2 < this.targetY) {
-					this.y += 2;
+				if(this.y < this.targetY && this.y + this.speed < this.targetY) {
+					this.y += this.speed;
 				}
-				else if(this.y > this.targetY && this.y - 2 > this.targetY) {
-					this.y -= 2;
+				else if(this.y > this.targetY && this.y - this.speed > this.targetY) {
+					this.y -= this.speed;
 				}
 				else {
 					this.y = this.targetY;
 				}
 			}
-			
-//			System.out.println("init " + asset);
-			g.setColor(Color.WHITE);
-			g.fillRect(this.x, this.y, width, height);
-			asset.paintIcon(panel, g, this.x, this.y);
+//			g.setColor(Color.WHITE);
+//			g.fillRect(this.x, this.y, width, height);
+			g.drawImage(asset, x, y, width, height, panel);
 		}
 		else {
 //			System.out.println("not init");
