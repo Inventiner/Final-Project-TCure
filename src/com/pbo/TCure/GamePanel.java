@@ -73,10 +73,12 @@ public class GamePanel extends JPanel implements KeyListener{
 	}
 
 	public void draw(Graphics g) {
-		if (curr_level.getWin() && !curr_level.getPlayer().getMoving()) running = false;
+		if (curr_level.getWin() && !curr_level.getPlayer().getMoving()) {
+			running = false;
+		}
 		if(running) {
-			curr_level.draw(g);
-			curr_level.drawPlayer(g);
+			curr_level.draw(g, this);
+			curr_level.drawPlayer(g, this);
 		}else {
 			YouWin(g);
 		}
@@ -89,6 +91,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		FontMetrics metrics = getFontMetrics(g.getFont());
 		g.drawString("YOU WIN!!!", (areaWidth - metrics.stringWidth("YOU WIN!!!"))/2, areaHeight/2);
 		changeLevel(new Level2());
+//		changeLevel(curr_level.getnextLevel());
 	}
 
 	@Override

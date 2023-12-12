@@ -4,6 +4,9 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 /*
  * Template of CoinMap and LevelMap
  * static final int[][] level = 
@@ -57,7 +60,7 @@ abstract public class Level {
 	public Level(int[][] level, int width, int height, int unitSize) {
 		this.levelMap = level;
 		this.width = width;
-		this.height = height;;
+		this.height = height;
 		this.unitSize = unitSize;
 		this.currDimension = new Dimension(width, height);
 	}
@@ -107,13 +110,12 @@ abstract public class Level {
 	}
 
 	public boolean getWin() {
-		if(win) return true;
-		else return false;
+		return win;
 	}
 
-	abstract public void draw(Graphics g);
+	abstract public void draw(Graphics g, JPanel panel);
 	
 	abstract public void keyHandler(KeyEvent e);
 	
-	abstract void drawPlayer(Graphics g);
+	abstract void drawPlayer(Graphics g, JPanel panel);
 }

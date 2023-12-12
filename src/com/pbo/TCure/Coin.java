@@ -1,5 +1,6 @@
 package com.pbo.TCure;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -7,23 +8,20 @@ import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 public class Coin {
 	private boolean get = false;
 	private int x, y, width, height;
-	private static BufferedImage asset;
+	private static ImageIcon asset;
 	
 	public Coin() {
 	}
 	
 	public Coin(int x, int y, int width, int height) {
-		URL url = getClass().getResource("Temp-Coin.png");
-		File img = new File(url.getPath());
-		try {
-			asset = ImageIO.read(img);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		asset = new ImageIcon("file:assets/Temp-Coin.png");
+	
 		this.x = x;
 		this.y = y;
 		this.height = height;
@@ -42,9 +40,11 @@ public class Coin {
 		return this.y;
 	}
 	
-	public void draw(Graphics g) {
+	public void draw(Graphics g, JPanel panel) {
 		if(!this.get) {
-			g.drawImage(asset, this.x, this.y, width, height, null);
+			g.setColor(Color.yellow);
+			g.fillOval(x, y, width, height);
+			asset.paintIcon(panel, g, this.x, this.y);
 		}
 		else {
 //			System.out.println("not init");
