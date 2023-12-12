@@ -31,8 +31,8 @@ public class ParentPanel extends JPanel implements KeyListener{
 			game.requestFocus();
 		} else if (name == "NextLevel") {
 			game.changeLevel(game.curr_level.getNextLevel());
-			game.requestFocus();
 			cardlayout.show(this, "GameScreen");
+			game.requestFocus();
 		}
 	}
 	
