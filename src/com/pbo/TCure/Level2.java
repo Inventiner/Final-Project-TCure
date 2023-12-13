@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 public class Level2 extends Level{
 	
-	static int charX, charY, winX, winY;
+	static int winX, winY;
 	static final int sizeX = 16, sizeY = 16;
 	List<Coin> coins;
 	List<Wall> walls;	
@@ -54,6 +54,8 @@ public class Level2 extends Level{
 	
 	public Level2() {
 		super(levelMapTemplate, 720, 720, 45);
+		arrX = sizeX;
+		arrY = sizeY;
 		this.player = new Player();
 		this.win = false;
 		this.lose = false;
@@ -87,7 +89,6 @@ public class Level2 extends Level{
 					charX = j;
 					charY = i;
 					player = new Player(j * boxSize, i * boxSize, boxSize, boxSize, 3, assetManager.getPlayer());
-					player.setCoord(j * boxSize, i * boxSize);
 					break;
 				case WIN:
 					winX = j * boxSize;
@@ -133,75 +134,14 @@ public class Level2 extends Level{
 	@Override
 	public void keyHandler(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			if(!player.getMoving() && charX + 1 < sizeX && levelMap[charY][charX + 1] == 0) { //cek apakah bisa gerak ke arah tsb
-				do {
-					levelMap[charY][charX] = 0;
-					levelMap[charY][charX + 1] = 2;
-					charX += 1;
-				} while(levelMap[charY][charX + 1] == 0); //gerak terus hingga nabrak tembok / menang / kena musuh (TBA)
-				
-				if(charX + 1 < sizeX && levelMap[charY][charX + 1] == 3) { //cek apakah sampai spot menang
-					win = true;
-				}				
-				else if(charX + 1 < sizeX && levelMap[charY][charX + 1] == 4) { //cek apakah sampai spot menang
-					lose = true;
-				}
-			}
+			movementHandler('R');
 		} else if(e.getKeyCode() == KeyEvent.VK_UP) {
-			if(!player.getMoving() && charY - 1 >= 0 && levelMap[charY - 1][charX] == 0) {
-				do {
-					levelMap[charY][charX] = 0;
-					levelMap[charY - 1][charX] = 2;
-					charY -= 1;
-				} while(levelMap[charY - 1][charX] == 0);
-				
-				if(charY - 1 >= 0 && levelMap[charY - 1][charX] == 3) { //cek apakah sampai spot menang
-//					levelMap[charY][charX] = 0;
-//					levelMap[charY - 1][charX] = 2;
-					win = true;						
-				}
-				else if(charY - 1 >= 0 && levelMap[charY - 1][charX] == 4) { //cek apakah sampai spot menang
-					lose = true;
-				}
-			}
+			movementHandler('U');
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN){
-			if(!player.getMoving() && charY + 1 < sizeY && levelMap[charY + 1][charX] == 0) {
-				do {
-					levelMap[charY][charX] = 0;
-					levelMap[charY + 1][charX] = 2;
-					charY += 1;
-					System.out.println("stopping at" + charX + ", " + charY);
-				} while(levelMap[charY + 1][charX] == 0);
-				
-				if(charY + 1 >= 0 && levelMap[charY + 1][charX] == 3) { //cek apakah sampai spot menang
-//					levelMap[charY][charX] = 0;
-//					levelMap[charY + 1][charX] = 2;
-					win = true;
-				}
-				else if(charY + 1 >= 0 && levelMap[charY + 1][charX] == 4) {
-					lose = true;
-				}
-			}
+			movementHandler('D');
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT){
-			if(!player.getMoving() && charX - 1 >= 0 && levelMap[charY][charX - 1] == 0) {
-				do {
-					levelMap[charY][charX] = 0;
-					levelMap[charY][charX - 1] = 2;
-					charX -= 1;
-				} while(levelMap[charY][charX - 1] == 0);
-				
-				if(charX - 1 < sizeX && levelMap[charY][charX - 1] == 3) { //cek apakah sampai spot menang?
-					levelMap[charY][charX] = 0;
-					levelMap[charY][charX - 1] = 2;
-					win = true;
-				}
-				else if(charX - 1 < sizeX && levelMap[charY][charX - 1] == 4) {
-					lose = true;
-				}
-			}
+			movementHandler('L');
 		}
-		System.out.println("New X Target: " + charX * getUnitSize() + "New Y Target: " + charY * getUnitSize());
-		player.update(charX * getUnitSize(), charY * getUnitSize());
 	}
 	
 	public Level getNextLevel() {

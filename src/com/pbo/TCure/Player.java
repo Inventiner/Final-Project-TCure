@@ -5,7 +5,6 @@ import java.awt.Image;
 import javax.swing.JPanel;
 
 public class Player {
-	private boolean init = false;
 	private int x, y, width, height;
 	private int targetX, targetY, winX, winY;
 	private int speed;
@@ -23,7 +22,6 @@ public class Player {
 		this.targetY = y;
 		this.height = height;
 		this.width = width;
-		this.init = true;
 		this.speed = speed;
 		this.health = 3;
 	}
@@ -34,10 +32,6 @@ public class Player {
 
 	public void setHealth(int health) {
 		this.health = health;
-	}
-
-	public boolean getstatus() {
-		return this.init;
 	}
 	
 	public void update(int x, int y) {
@@ -79,33 +73,28 @@ public class Player {
 	}
 	
 	public void draw(Graphics g, JPanel panel) {
-		if(this.init) {
-			if(this.x != this.targetX) {
-				if(this.x < this.targetX && this.x + this.speed < this.targetX) {
-					this.x += this.speed;
-				}
-				else if(this.x > this.targetX && this.x - this.speed > this.targetX) {
-					this.x -= this.speed;
-				}
-				else {
-					this.x = this.targetX;
-				}
+		if(this.x != this.targetX) {
+			if(this.x < this.targetX && this.x + this.speed < this.targetX) {
+				this.x += this.speed;
 			}
-			if(this.y != this.targetY) {
-				if(this.y < this.targetY && this.y + this.speed < this.targetY) {
-					this.y += this.speed;
-				}
-				else if(this.y > this.targetY && this.y - this.speed > this.targetY) {
-					this.y -= this.speed;
-				}
-				else {
-					this.y = this.targetY;
-				}
+			else if(this.x > this.targetX && this.x - this.speed > this.targetX) {
+				this.x -= this.speed;
 			}
-			g.drawImage(asset, x, y, width, height, null);
+			else {
+				this.x = this.targetX;
+			}
 		}
-		else {
-//			System.out.println("not init");
+		if(this.y != this.targetY) {
+			if(this.y < this.targetY && this.y + this.speed < this.targetY) {
+				this.y += this.speed;
+			}
+			else if(this.y > this.targetY && this.y - this.speed > this.targetY) {
+				this.y -= this.speed;
+			}
+			else {
+				this.y = this.targetY;
+			}
 		}
+		g.drawImage(asset, x, y, width, height, null);
 	}
 }

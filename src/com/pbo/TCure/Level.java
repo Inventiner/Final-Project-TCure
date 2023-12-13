@@ -48,27 +48,38 @@ import javax.swing.JPanel;
 
 abstract public class Level {
 	protected int point;
-	protected Player player = new Player();
+	protected Player player;
 	protected int[][] levelMap;
 	private int width, height, unitSize;
 	boolean win = false, lose = false;
 	private Dimension currDimension;
 	private assetManager assets;
 	protected static final int EMPTY = 0, WALL = 1, PLAYER = 2, WIN = 3, TRAP = 4;
+	protected static int charX, charY, arrX, arrY;
 	
 	public Level() {
 	}
 	
 	public Level(int[][] level, int width, int height, int unitSize) {
-		this.player = new Player();
 		this.assets = new assetManager();
-		this.levelMap = level;
 		this.width = width;
 		this.height = height;
 		this.unitSize = unitSize;
 		this.point = 0;
 		this.currDimension = new Dimension(width, height);
+		initMap(level);
 	}
+	
+	public void initMap(int[][] level) {
+		this.levelMap = new int[getHeight()/getUnitSize()][getWidth()/getUnitSize()];
+		for(int i = 0; i < getHeight()/getUnitSize(); i++) {
+			for(int j = 0; j < getWidth()/getUnitSize(); j++) {
+				this.levelMap[i][j] = level[i][j];
+			}
+		}
+	}
+	
+	
 	
 	public int[][] getLevel() {
 		return levelMap;
@@ -122,6 +133,85 @@ abstract public class Level {
 		return lose;
 	}
 
+	public void movementHandler(char direction) {
+		for(int i = 0; i < getHeight()/getUnitSize(); i++) {
+			for(int j = 0; j < getWidth()/getUnitSize(); j++) {
+				System.out.print(this.levelMap[i][j]);
+			}
+			System.out.print('\n');
+		}
+		switch (direction) {
+		case 'R':
+			if(!player.getMoving() && charX + 1 < arrX && levelMap[charY][charX + 1] == 0) { //cek apakah bisa gerak ke arah tsb
+				do {
+					levelMap[charY][charX] = 0;
+					levelMap[charY][charX + 1] = 2;
+					charX += 1;
+				} while(levelMap[charY][charX + 1] == 0); //gerak terus hingga nabrak tembok / menang / kena musuh (TBA)
+				
+				if(charX + 1 < arrX && levelMap[charY][charX + 1] == 3) { //cek apakah sampai spot menang
+					win = true;
+				}				
+				else if(charX + 1 < arrX && levelMap[charY][charX + 1] == 4) { //cek apakah sampai spot kalah
+					lose = true;
+				}
+			}
+			break;
+		case 'U':
+			if(!player.getMoving() && charY - 1 >= 0 && levelMap[charY - 1][charX] == 0) {
+				do {
+					levelMap[charY][charX] = 0;
+					levelMap[charY - 1][charX] = 2;
+					charY -= 1;
+				} while(levelMap[charY - 1][charX] == 0);
+				
+				if(charY - 1 >= 0 && levelMap[charY - 1][charX] == 3) {
+					win = true;						
+				}
+				else if(charY - 1 >= 0 && levelMap[charY - 1][charX] == 4) {
+					lose = true;
+				}
+			}
+			break;
+		case 'D':
+			if(!player.getMoving() && charY + 1 < arrY && levelMap[charY + 1][charX] == 0) {
+				do {
+					levelMap[charY][charX] = 0;
+					levelMap[charY + 1][charX] = 2;
+					charY += 1;
+				} while(levelMap[charY + 1][charX] == 0);
+				
+				if(charY + 1 < arrY && levelMap[charY + 1][charX] == 3) {
+					win = true;
+				}
+				else if(charY + 1 < arrY && levelMap[charY + 1][charX] == 4) {
+					lose = true;
+				}
+			}
+			break;
+		case 'L':
+			if(!player.getMoving() && charX - 1 >= 0 && levelMap[charY][charX - 1] == 0) {
+				do {
+					levelMap[charY][charX] = 0;
+					levelMap[charY][charX - 1] = 2;
+					charX -= 1;
+				} while(levelMap[charY][charX - 1] == 0);
+				
+				if(charX - 1 >= 0 && levelMap[charY][charX - 1] == 3) { //cek apakah sampai spot menang?
+					win = true;
+				}
+				else if(charX - 1 >= 0 && levelMap[charY][charX - 1] == 4) {
+					lose = true;
+				}
+			}
+			break;
+		default:
+			break;
+		}
+		System.out.println("New X Target: " + charX * getUnitSize() + "New Y Target: " + charY * getUnitSize());
+		player.update(charX * getUnitSize(), charY * getUnitSize());
+	}
+	
 	abstract public void initCoin();
 	
 	abstract public void initLevel();
@@ -133,7 +223,7 @@ abstract public class Level {
 	abstract public Level getNextLevel();
 	
 	abstract public Level RetryLevel();
-
+	
 	public assetManager getAssets() {
 		return assets;
 	}

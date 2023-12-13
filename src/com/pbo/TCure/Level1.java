@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 
 public class Level1 extends Level{
 	static JPanel panel;
-	static int charX, charY, winX, winY;
+	static int winX, winY;
 	static final int sizeX = 16, sizeY = 16;
 	List<Coin> coins;
 	List<Wall> walls;
@@ -51,8 +51,9 @@ public class Level1 extends Level{
 			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 	
 	public Level1() {
-		super(levelMapTemplate, 640, 640, 40);
-		this.player = new Player();
+		super(levelMapTemplate.clone(), 640, 640, 40);
+		arrX = sizeX;
+		arrY = sizeY;
 		this.coins = new ArrayList<>();
 		this.walls = new ArrayList<>();
 		this.point = 0;
@@ -81,20 +82,21 @@ public class Level1 extends Level{
 				case PLAYER:
 					charX = j;
 					charY = i;
+					System.out.println("Creating new player! at " + j * boxSize + ", " + i * boxSize);
 					player = new Player(j * boxSize, i * boxSize, boxSize, boxSize, 3, assetManager.getPlayer());
 					player.setCoord(j * boxSize, i * boxSize);
 					break;
 				case WIN:
 					winX = j * boxSize;
 					winY = i * boxSize;
-					player.setWinX(winX);
-					player.setWinY(winY);
 					break;
 				default:
 					break;
 				}
 			}
 		}	
+		player.setWinX(winX);
+		player.setWinY(winY);
 	}
 	
 	@Override
@@ -121,61 +123,14 @@ public class Level1 extends Level{
 	@Override
 	public void keyHandler(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			if(!player.getMoving() && charX + 1 < sizeX && levelMap[charY][charX + 1] == 0) { //cek apakah bisa gerak ke arah tsb
-				do {
-					levelMap[charY][charX] = 0;
-					levelMap[charY][charX + 1] = 2;
-					charX += 1;
-				} while(levelMap[charY][charX + 1] == 0); //gerak terus hingga nabrak tembok / menang / kena musuh (TBA)
-				
-				if(charX + 1 < sizeX && levelMap[charY][charX + 1] == 3) { //cek apakah sampai spot menang
-					win = true;
-				}
-			}
+			movementHandler('R');
 		} else if(e.getKeyCode() == KeyEvent.VK_UP) {
-			if(!player.getMoving() && charY - 1 >= 0 && levelMap[charY - 1][charX] == 0) {
-				do {
-					levelMap[charY][charX] = 0;
-					levelMap[charY - 1][charX] = 2;
-					charY -= 1;
-				} while(levelMap[charY - 1][charX] == 0);
-				
-				if(charY - 1 >= 0 && levelMap[charY - 1][charX] == 3) { //cek apakah sampai spot menang
-//					levelMap[charY][charX] = 0;
-//					levelMap[charY - 1][charX] = 2;
-					win = true;
-				}
-			}
+			movementHandler('U');
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN){
-			if(!player.getMoving() && charY + 1 < sizeY && levelMap[charY + 1][charX] == 0) {
-				do {
-					levelMap[charY][charX] = 0;
-					levelMap[charY + 1][charX] = 2;
-					charY += 1;
-				} while(levelMap[charY + 1][charX] == 0);
-				
-				if(charY + 1 >= 0 && levelMap[charY + 1][charX] == 3)
-				{ //cek apakah sampai spot menang
-//					levelMap[charY][charX] = 0;
-//					levelMap[charY + 1][charX] = 2;
-					win = true;
-				}
-			}
+			movementHandler('D');
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT){
-			if(!player.getMoving() && charX - 1 >= 0 && levelMap[charY][charX - 1] == 0) {
-				do {
-					levelMap[charY][charX] = 0;
-					levelMap[charY][charX - 1] = 2;
-					charX -= 1;
-				} while(levelMap[charY][charX - 1] == 0);
-				
-				if(charX - 1 < sizeX && levelMap[charY][charX - 1] == 3) { //cek apakah sampai spot menang?
-					win = true;
-				}
-			}
+			movementHandler('L');
 		}
-		System.out.println("New X Target: " + charX * getUnitSize() + "New Y Target: " + charY * getUnitSize());
-		player.update(charX * getUnitSize(), charY * getUnitSize());
 	}
 	
 	public Level getNextLevel() {
