@@ -51,9 +51,10 @@ abstract public class Level {
 	protected Player player = new Player();
 	protected int[][] levelMap;
 	private int width, height, unitSize;
-	boolean win = false;
+	boolean win = false, lose = false;
 	private Dimension currDimension;
 	private assetManager assets;
+	protected static final int EMPTY = 0, WALL = 1, PLAYER = 2, WIN = 3, TRAP = 4;
 	
 	public Level() {
 	}
