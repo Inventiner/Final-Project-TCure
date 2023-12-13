@@ -10,9 +10,10 @@ public class assetManager {
 			wall = ImageIO.read(getClass().getResource("/assets/Temp-Brain.png"));
 			coin = ImageIO.read(getClass().getResource("/assets/Temp-Coin.png"));
 			player = ImageIO.read(getClass().getResource("/assets/Temp-Player.png"));
-			trap = ImageIO.read(getClass().getResource("/assets.Temp-Trap.png"));
+			trap = ImageIO.read(getClass().getResource("/assets/Temp-Trap.png"));
 		} catch (Exception e) {
-			e.getMessage();
+			System.out.println("Error when reading Image!");
+			System.out.println(e.toString()); 
 		}
 		
 		

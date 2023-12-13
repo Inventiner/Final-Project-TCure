@@ -75,16 +75,16 @@ public class Level1 extends Level{
 		for(int i = 0; i < getHeight()/getUnitSize(); i++) {
 			for(int j = 0; j < getWidth()/getUnitSize(); j++) {
 				switch (levelMap[i][j]) {
-				case 1:
+				case WALL:
 					walls.add(new Wall(j * boxSize, i * boxSize, boxSize, boxSize, assetManager.getWall()));
 					break;
-				case 2:
+				case PLAYER:
 					charX = j;
 					charY = i;
 					player = new Player(j * boxSize, i * boxSize, boxSize, boxSize, 3, assetManager.getPlayer());
 					player.setCoord(j * boxSize, i * boxSize);
 					break;
-				case 3:
+				case WIN:
 					winX = j * boxSize;
 					winY = i * boxSize;
 					player.setWinX(winX);
@@ -138,16 +138,12 @@ public class Level1 extends Level{
 					levelMap[charY][charX] = 0;
 					levelMap[charY - 1][charX] = 2;
 					charY -= 1;
-				} while(levelMap[charY - 1][charX] != 1 && levelMap[charY - 1][charX] != 3);
+				} while(levelMap[charY - 1][charX] == 0);
 				
 				if(charY - 1 >= 0 && levelMap[charY - 1][charX] == 3) { //cek apakah sampai spot menang
-					//level[charY][charX] = 0;
-					//level[charY - 1][charX] = 2;
-					//charY -= 1;
-					//player.update(charX * getUnitSize(), charY * getUnitSize());
-					//if(player.isWin()) {
-						win = true;						
-					//}
+					levelMap[charY][charX] = 0;
+					levelMap[charY - 1][charX] = 2;
+					win = true;
 				}
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN){
@@ -156,7 +152,7 @@ public class Level1 extends Level{
 					levelMap[charY][charX] = 0;
 					levelMap[charY + 1][charX] = 2;
 					charY += 1;
-				} while(levelMap[charY + 1][charX] != 1 && levelMap[charY + 1][charX] != 3);
+				} while(levelMap[charY + 1][charX] == 0);
 				
 				if(charY + 1 >= 0 && levelMap[charY + 1][charX] == 3)
 				{ //cek apakah sampai spot menang
@@ -171,7 +167,7 @@ public class Level1 extends Level{
 					levelMap[charY][charX] = 0;
 					levelMap[charY][charX - 1] = 2;
 					charX -= 1;
-				} while(levelMap[charY][charX - 1] != 1 && levelMap[charY][charX - 1] != 3);
+				} while(levelMap[charY][charX - 1] == 0);
 				
 				if(charX - 1 < sizeX && levelMap[charY][charX - 1] == 3) { //cek apakah sampai spot menang?
 					win = true;

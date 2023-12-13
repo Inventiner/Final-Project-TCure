@@ -102,7 +102,7 @@ public class Level2 extends Level{
 					break;
 				}
 			}
-		}	
+		}
 	}
 	
 	@Override
@@ -118,6 +118,7 @@ public class Level2 extends Level{
 		for (Wall wall : walls) {
 			wall.draw(g, panel);
 		}
+		
 		for (Trap trap : traps) {
 			trap.draw(g, panel);
 		}
@@ -141,6 +142,9 @@ public class Level2 extends Level{
 				
 				if(charX + 1 < sizeX && levelMap[charY][charX + 1] == 3) { //cek apakah sampai spot menang
 					win = true;
+				}				
+				else if(charX + 1 < sizeX && levelMap[charY][charX + 1] == 4) { //cek apakah sampai spot menang
+					lose = true;
 				}
 			}
 		} else if(e.getKeyCode() == KeyEvent.VK_UP) {
@@ -149,16 +153,15 @@ public class Level2 extends Level{
 					levelMap[charY][charX] = 0;
 					levelMap[charY - 1][charX] = 2;
 					charY -= 1;
-				} while(levelMap[charY - 1][charX] != 1 && levelMap[charY - 1][charX] != 3);
+				} while(levelMap[charY - 1][charX] == 0);
 				
 				if(charY - 1 >= 0 && levelMap[charY - 1][charX] == 3) { //cek apakah sampai spot menang
-					//level[charY][charX] = 0;
-					//level[charY - 1][charX] = 2;
-					//charY -= 1;
-					//player.update(charX * getUnitSize(), charY * getUnitSize());
-					//if(player.isWin()) {
-						win = true;						
-					//}
+					levelMap[charY][charX] = 0;
+					levelMap[charY - 1][charX] = 2;
+					win = true;						
+				}
+				else if(charY - 1 >= 0 && levelMap[charY - 1][charX] == 4) { //cek apakah sampai spot menang
+					lose = true;
 				}
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN){
@@ -167,13 +170,16 @@ public class Level2 extends Level{
 					levelMap[charY][charX] = 0;
 					levelMap[charY + 1][charX] = 2;
 					charY += 1;
-				} while(levelMap[charY + 1][charX] != 1 && levelMap[charY + 1][charX] != 3);
+					System.out.println("stopping at" + charX + ", " + charY);
+				} while(levelMap[charY + 1][charX] == 0);
 				
-				if(charY + 1 >= 0 && levelMap[charY + 1][charX] == 3)
-				{ //cek apakah sampai spot menang
+				if(charY + 1 >= 0 && levelMap[charY + 1][charX] == 3) { //cek apakah sampai spot menang
 					levelMap[charY][charX] = 0;
 					levelMap[charY + 1][charX] = 2;
 					win = true;
+				}
+				else if(charY + 1 >= 0 && levelMap[charY + 1][charX] == 4) {
+					lose = true;
 				}
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT){
@@ -182,10 +188,15 @@ public class Level2 extends Level{
 					levelMap[charY][charX] = 0;
 					levelMap[charY][charX - 1] = 2;
 					charX -= 1;
-				} while(levelMap[charY][charX - 1] != 1 && levelMap[charY][charX - 1] != 3);
+				} while(levelMap[charY][charX - 1] == 0);
 				
 				if(charX - 1 < sizeX && levelMap[charY][charX - 1] == 3) { //cek apakah sampai spot menang?
+					levelMap[charY][charX] = 0;
+					levelMap[charY][charX - 1] = 2;
 					win = true;
+				}
+				else if(charX - 1 < sizeX && levelMap[charY][charX - 1] == 4) {
+					lose = true;
 				}
 			}
 		}

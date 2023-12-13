@@ -102,9 +102,7 @@ public class Player {
 					this.y = this.targetY;
 				}
 			}
-//			g.setColor(Color.WHITE);
-//			g.fillRect(this.x, this.y, width, height);
-			g.drawImage(asset, x, y, width, height, panel);
+			g.drawImage(asset, x, y, width, height, null);
 		}
 		else {
 //			System.out.println("not init");

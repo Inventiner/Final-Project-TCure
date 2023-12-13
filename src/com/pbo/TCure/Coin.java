@@ -32,11 +32,11 @@ public class Coin {
 	
 	public void draw(Graphics g, JPanel panel) {
 		if(this.taken) {
-			g.setColor(new Color(151, 151, 151, 50));
-			g.fillOval(x, y, width, height);
+			g.setColor(new Color(191, 191, 191, 60));
+			g.fillOval(x + width/4, y + height/4, width/2, height/2);
 		} else {
 			g.setColor(Color.yellow);				
-			g.drawImage(asset, x, y, width, height, panel);
+			g.drawImage(asset, x, y, width, height, null);
 		}
 	}
 	
