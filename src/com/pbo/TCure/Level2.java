@@ -31,8 +31,8 @@ public class Level2 extends Level{
 			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 			{1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1},
-			{1, 0, 0, 0, 0, 0, 0, 2, 1, 0, 0, 4, 0, 0, 0, 1},
-			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
+			{1, 0, 0, 0, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 1},
+			{1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 1, 1, 1, 1}};
 	
 	static final int[][] coinMap = 
 		   {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -156,8 +156,8 @@ public class Level2 extends Level{
 				} while(levelMap[charY - 1][charX] == 0);
 				
 				if(charY - 1 >= 0 && levelMap[charY - 1][charX] == 3) { //cek apakah sampai spot menang
-					levelMap[charY][charX] = 0;
-					levelMap[charY - 1][charX] = 2;
+//					levelMap[charY][charX] = 0;
+//					levelMap[charY - 1][charX] = 2;
 					win = true;						
 				}
 				else if(charY - 1 >= 0 && levelMap[charY - 1][charX] == 4) { //cek apakah sampai spot menang
@@ -174,8 +174,8 @@ public class Level2 extends Level{
 				} while(levelMap[charY + 1][charX] == 0);
 				
 				if(charY + 1 >= 0 && levelMap[charY + 1][charX] == 3) { //cek apakah sampai spot menang
-					levelMap[charY][charX] = 0;
-					levelMap[charY + 1][charX] = 2;
+//					levelMap[charY][charX] = 0;
+//					levelMap[charY + 1][charX] = 2;
 					win = true;
 				}
 				else if(charY + 1 >= 0 && levelMap[charY + 1][charX] == 4) {
@@ -206,5 +206,8 @@ public class Level2 extends Level{
 	
 	public Level getNextLevel() {
 		return new Level1();
+	}
+	public Level RetryLevel() {
+		return new Level2();
 	}
 }

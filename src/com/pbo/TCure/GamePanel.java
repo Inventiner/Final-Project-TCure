@@ -74,22 +74,24 @@ public class GamePanel extends JPanel implements KeyListener{
 	}
 
 	public void draw(Graphics g) {
-		if(curr_level.getWin() && !curr_level.getPlayer().getMoving()) {
+		if((curr_level.getWin() || curr_level.getLose()) && !curr_level.getPlayer().getMoving()) {
 			running = false;
 		}
 		if(running) {
 			curr_level.draw(g, this);
-		} else {
+		} else if(this.curr_level.getWin()) {
 			YouWin(g);
+		} else if (this.curr_level.getLose()) {
+			Lose();
 		}
 		repaint();
 	}
 
 	public void YouWin(Graphics g) {
-		g.setColor(Color.GREEN);
-		g.setFont(new Font("Ink Free", Font.BOLD, 75));
-		FontMetrics metrics = getFontMetrics(g.getFont());
-		g.drawString("YOU WIN!!!", (areaWidth - metrics.stringWidth("YOU WIN!!!"))/2, areaHeight/2);
+//		g.setColor(Color.GREEN);
+//		g.setFont(new Font("Ink Free", Font.BOLD, 75));
+//		FontMetrics metrics = getFontMetrics(g.getFont());
+//		g.drawString("YOU WIN!!!", (areaWidth - metrics.stringWidth("YOU WIN!!!"))/2, areaHeight/2);
 		win();
 	}
 	
@@ -116,5 +118,10 @@ public class GamePanel extends JPanel implements KeyListener{
 	private void win() {
 		ParentPanel parent = (ParentPanel) getParent();
 		parent.showPanel("Win");
+	}
+	
+	private void Lose() {
+		ParentPanel parent = (ParentPanel) getParent();
+		parent.showPanel("Lose");
 	}
 }

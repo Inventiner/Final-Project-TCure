@@ -141,8 +141,8 @@ public class Level1 extends Level{
 				} while(levelMap[charY - 1][charX] == 0);
 				
 				if(charY - 1 >= 0 && levelMap[charY - 1][charX] == 3) { //cek apakah sampai spot menang
-					levelMap[charY][charX] = 0;
-					levelMap[charY - 1][charX] = 2;
+//					levelMap[charY][charX] = 0;
+//					levelMap[charY - 1][charX] = 2;
 					win = true;
 				}
 			}
@@ -156,8 +156,8 @@ public class Level1 extends Level{
 				
 				if(charY + 1 >= 0 && levelMap[charY + 1][charX] == 3)
 				{ //cek apakah sampai spot menang
-					levelMap[charY][charX] = 0;
-					levelMap[charY + 1][charX] = 2;
+//					levelMap[charY][charX] = 0;
+//					levelMap[charY + 1][charX] = 2;
 					win = true;
 				}
 			}
@@ -181,4 +181,8 @@ public class Level1 extends Level{
 	public Level getNextLevel() {
 		return new Level2();
 	}
+	public Level RetryLevel() {
+		return new Level1();
+	}
+	
 }

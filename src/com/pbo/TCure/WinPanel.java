@@ -16,11 +16,14 @@ public class WinPanel extends JPanel {
 		JLabel label = new JLabel("You Win");
 		JButton BacktoMenu = new JButton("Kembali ke Menu");
 		JButton Next = new JButton("Level Selanjutnya");
+		JButton Retry = new JButton("Ulang Level");
 		BacktoMenu.addActionListener(this::BackToMenu);
 		Next.addActionListener(this::nextlevel);
+		Retry.addActionListener(this::RetryLevel);
 		add(label);
 		add(BacktoMenu);
 		add(Next);
+		add(Retry);
 	}
 	
 	private void BackToMenu(ActionEvent e) {
@@ -31,6 +34,11 @@ public class WinPanel extends JPanel {
 	private void nextlevel(ActionEvent e) {
 		ParentPanel parent = (ParentPanel) getParent();
 		parent.showPanel("NextLevel");
+	}
+	
+	private void RetryLevel(ActionEvent e) {
+		ParentPanel parent = (ParentPanel) getParent();
+		parent.showPanel("Retry");
 	}
 	
 	public void YouWin(Graphics g) {

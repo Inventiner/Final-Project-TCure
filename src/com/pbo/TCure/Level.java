@@ -117,6 +117,10 @@ abstract public class Level {
 	public boolean getWin() {
 		return win;
 	}
+	
+	public boolean getLose() {
+		return lose;
+	}
 
 	abstract public void initCoin();
 	
@@ -127,6 +131,8 @@ abstract public class Level {
 	abstract public void keyHandler(KeyEvent e);
 	
 	abstract public Level getNextLevel();
+	
+	abstract public Level RetryLevel();
 
 	public assetManager getAssets() {
 		return assets;

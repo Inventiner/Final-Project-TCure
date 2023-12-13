@@ -22,6 +22,7 @@ public class ParentPanel extends JPanel implements KeyListener{
 		add(new MainMenuPanel(),"MainMenu");
 		add(game, "GameScreen");
 		add(new WinPanel(), "Win");
+		add(new LosePanel(), "Lose");
 	}
 	
 	public void showPanel(String name) {
@@ -31,6 +32,10 @@ public class ParentPanel extends JPanel implements KeyListener{
 			game.requestFocus();
 		} else if (name == "NextLevel") {
 			game.changeLevel(GamePanel.curr_level.getNextLevel());
+			cardlayout.show(this, "GameScreen");
+			game.requestFocus();
+		} else if (name == "Retry") {
+			game.changeLevel(GamePanel.curr_level.RetryLevel());
 			cardlayout.show(this, "GameScreen");
 			game.requestFocus();
 		}
