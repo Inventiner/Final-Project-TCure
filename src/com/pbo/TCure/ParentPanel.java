@@ -21,6 +21,7 @@ public class ParentPanel extends JPanel{
 		add(game, "GameScreen");
 		add(new WinPanel(), "Win");
 		add(new LosePanel(), "Lose");
+		add(new LevelPickerPanel(), "Level");
 	}
 	
 	public void showPanel(String name) {
@@ -38,6 +39,25 @@ public class ParentPanel extends JPanel{
 			cardlayout.show(this, "GameScreen");
 			game.requestFocus();
 		}
+	}
+	
+	public void levelPicker(String level) {
+		cardlayout.show(this, "GameScreen");
+		
+		if (level == "Level1") {
+			game.changeLevel(new Level1());
+			cardlayout.show(this, "GameScreen");
+			game.requestFocus();
+		} else if (level == "Level2") {
+			game.changeLevel(new Level2());
+			cardlayout.show(this, "GameScreen");
+			game.requestFocus();
+		} else if (level == "Level3") {
+			game.changeLevel(new Level3());
+			cardlayout.show(this, "GameScreen");
+			game.requestFocus();
+		}
+		
 	}
 	
 	public void draw(Graphics g) {

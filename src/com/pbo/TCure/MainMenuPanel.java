@@ -11,12 +11,20 @@ public class MainMenuPanel extends JPanel{
 		setBackground(Color.blue); // Warna latar belakang biru
 		
 		JButton startButton = new JButton("Mulai game");
+		JButton levelpicker = new JButton("Pilih Level");
 		startButton.addActionListener(this::mulaiGame);
+		levelpicker.addActionListener(this::picklevel);
 		add(startButton);
+		add(levelpicker);
 	}
 	
 	private void mulaiGame(ActionEvent e) {
 		ParentPanel parent = (ParentPanel) getParent();
 		parent.showPanel("GameScreen");
+	}
+	
+	private void picklevel(ActionEvent e) {
+		ParentPanel parent = (ParentPanel) getParent();
+		parent.showPanel("Level");
 	}
 }
