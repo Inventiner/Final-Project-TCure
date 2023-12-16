@@ -5,22 +5,21 @@ import java.awt.Image;
 
 import javax.swing.JPanel;
 
-public class Wall {
-	protected int x, y, width, height;
-	protected static Image asset;
+public class Win {
+	private int x, y, width, height;
+	private static Image asset;
 	
-	public Wall() {
-		
+	public Win() {	
 	}
 	
-	public Wall(int x, int y, int width, int height, Image img) {
+	public Win(int x, int y, int width, int height, Image img) {
 		this.x = x;
 		this.y = y;
 		this.height = height;
 		this.width = width;
 		asset = img;
 	}
-	
+
 	public int getX() {
 		return this.x;
 	}
