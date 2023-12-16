@@ -145,14 +145,16 @@ abstract public class Level {
 		}
 		switch (direction) {
 		case 'R':
-			if((!player.getMoving() && charX + 1 < arrX && levelMap[charY][charX + 1] == 0) 
-					|| (!player.getMoving() && charX + 1 < arrX && levelMap[charY][charX + 1] == KEY) 
-					|| ((!player.getMoving() && charX + 1 < arrX && levelMap[charY][charX + 1] == DOOR)) && (door.getOpen())) { //cek apakah bisa gerak ke arah tsb
+			if(!player.getMoving() && ((charX + 1 < arrX && levelMap[charY][charX + 1] == EMPTY) 
+					|| (charX + 1 < arrX && levelMap[charY][charX + 1] == KEY) 
+					|| ((charX + 1 < arrX && levelMap[charY][charX + 1] == DOOR) && door.getOpen()))) { //cek apakah bisa gerak ke arah tsb
 				do {
 					levelMap[charY][charX] = 0;
 					levelMap[charY][charX + 1] = 2;
 					charX += 1;
-				} while(levelMap[charY][charX + 1] == 0); //gerak terus hingga nabrak tembok / menang / kena musuh (TBA)
+				} while(((charX + 1 < arrX && levelMap[charY][charX + 1] == EMPTY) 
+						|| (charX + 1 < arrX && levelMap[charY][charX + 1] == KEY) 
+						|| ((charX + 1 < arrX && levelMap[charY][charX + 1] == DOOR) && door.getOpen()))); //gerak terus hingga nabrak tembok / menang / kena musuh (TBA)
 				
 				if(charX + 1 < arrX && levelMap[charY][charX + 1] == 3) { //cek apakah sampai spot menang
 					win = true;
@@ -161,21 +163,23 @@ abstract public class Level {
 					lose = true;
 				}
 				
-				if(charX + 1 < arrX && levelMap[charY][charX + 1] == KEY) {
-					key.setTaken(true);
-					door.open();
-				}
+//				if(charX + 1 < arrX && levelMap[charY][charX + 1] == KEY) {
+//					key.setTaken(true);
+//					door.open();
+//				}
 			}
 			break;
 		case 'U':
-			if((!player.getMoving() && charY - 1 >= 0 && levelMap[charY - 1][charX] == 0)
-					||(!player.getMoving() && charY - 1 >= 0 && levelMap[charY - 1][charX] == KEY)
-					|| (!player.getMoving() && charY - 1 >= 0 && levelMap[charY - 1][charX] == DOOR) && (door.getOpen())) {
+			if(!player.getMoving() && ((charY - 1 >= 0 && levelMap[charY - 1][charX] == 0)
+					||(charY - 1 >= 0 && levelMap[charY - 1][charX] == KEY)
+					|| ((charY - 1 >= 0 && levelMap[charY - 1][charX] == DOOR) && door.getOpen()))) {
 				do {
 					levelMap[charY][charX] = 0;
 					levelMap[charY - 1][charX] = 2;
 					charY -= 1;
-				} while(levelMap[charY - 1][charX] == 0);
+				} while(((charY - 1 >= 0 && levelMap[charY - 1][charX] == 0)
+						||(charY - 1 >= 0 && levelMap[charY - 1][charX] == KEY)
+						|| ((charY - 1 >= 0 && levelMap[charY - 1][charX] == DOOR) && door.getOpen())));
 				
 				if(charY - 1 >= 0 && levelMap[charY - 1][charX] == 3) {
 					win = true;						
@@ -184,21 +188,23 @@ abstract public class Level {
 					lose = true;
 				}
 				
-				if(charY - 1 >= 0 && levelMap[charY - 1][charX] == KEY) {
-					key.setTaken(true);
-					door.open();
-				}
+//				if(charY - 1 >= 0 && levelMap[charY - 1][charX] == KEY) {
+//					key.setTaken(true);
+//					door.open();
+//				}
 			}
 			break;
 		case 'D':
-			if((!player.getMoving() && charY + 1 < arrY && levelMap[charY + 1][charX] == 0) 
-					||(!player.getMoving() && charY + 1 < arrY && levelMap[charY + 1][charX] == KEY)
-					||(!player.getMoving() && charY + 1 < arrY && levelMap[charY + 1][charX] == DOOR) && (door.getOpen())) {
+			if(!player.getMoving() && ((charY + 1 < arrY && levelMap[charY + 1][charX] == 0) 
+					||(charY + 1 < arrY && levelMap[charY + 1][charX] == KEY)
+					|| ((charY + 1 < arrY && levelMap[charY + 1][charX] == DOOR) && door.getOpen()))) {
 				do {
 					levelMap[charY][charX] = 0;
 					levelMap[charY + 1][charX] = 2;
 					charY += 1;
-				} while(levelMap[charY + 1][charX] == 0);
+				} while(((charY + 1 < arrY && levelMap[charY + 1][charX] == 0) 
+						||(charY + 1 < arrY && levelMap[charY + 1][charX] == KEY)
+						|| ((charY + 1 < arrY && levelMap[charY + 1][charX] == DOOR) && door.getOpen())));
 				
 				if(charY + 1 < arrY && levelMap[charY + 1][charX] == 3) {
 					win = true;
@@ -207,21 +213,23 @@ abstract public class Level {
 					lose = true;
 				}
 				
-				if(charY + 1 < arrY && levelMap[charY + 1][charX] == KEY) {
-					key.setTaken(true);
-					door.open();
-				}
+//				if(charY + 1 < arrY && levelMap[charY + 1][charX] == KEY) {
+//					key.setTaken(true);
+//					door.open();
+//				}
 			}
 			break;
 		case 'L':
-			if((!player.getMoving() && charX - 1 >= 0 && levelMap[charY][charX - 1] == 0)
-					||(!player.getMoving() && charX - 1 >= 0 && levelMap[charY][charX - 1] == KEY)
-					||(!player.getMoving() && charX - 1 >= 0 && levelMap[charY][charX - 1] == DOOR) && (door.getOpen())) {
+			if(!player.getMoving() && ((charX - 1 >= 0 && levelMap[charY][charX - 1] == 0)
+					||(charX - 1 >= 0 && levelMap[charY][charX - 1] == KEY)
+					||((levelMap[charY][charX - 1] == DOOR) && door.getOpen()))) {
 				do {
 					levelMap[charY][charX] = 0;
 					levelMap[charY][charX - 1] = 2;
 					charX -= 1;
-				} while(levelMap[charY][charX - 1] == 0);
+				} while(((charX - 1 >= 0 && levelMap[charY][charX - 1] == 0)
+						||(charX - 1 >= 0 && levelMap[charY][charX - 1] == KEY)
+						||((levelMap[charY][charX - 1] == DOOR) && door.getOpen())));
 				
 				if(charX - 1 >= 0 && levelMap[charY][charX - 1] == 3) { //cek apakah sampai spot menang?
 					win = true;
@@ -230,10 +238,10 @@ abstract public class Level {
 					lose = true;
 				}
 				
-				if(charX - 1 >= 0 && levelMap[charY][charX - 1] == KEY) {
-					key.setTaken(true);
-					door.open();
-				}
+//				if(charX - 1 >= 0 && levelMap[charY][charX - 1] == KEY) {
+//					key.setTaken(true);
+//					door.open();
+//				}
 			}
 			break;
 		default:
