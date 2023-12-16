@@ -48,13 +48,16 @@ import javax.swing.JPanel;
 
 abstract public class Level {
 	protected int point;
+	protected Win winSquare;
+	protected Door door;
+	protected Key key;
 	protected Player player;
 	protected int[][] levelMap;
 	private int width, height, unitSize;
 	boolean win = false, lose = false;
 	private Dimension currDimension;
 	private assetManager assets;
-	protected static final int EMPTY = 0, WALL = 1, PLAYER = 2, WIN = 3, TRAP = 4;
+	protected static final int EMPTY = 0, WALL = 1, PLAYER = 2, WIN = 3, TRAP = 4, DOOR = 5, KEY = 6;
 	protected static int charX, charY, arrX, arrY;
 	
 	public Level() {
@@ -142,7 +145,9 @@ abstract public class Level {
 		}
 		switch (direction) {
 		case 'R':
-			if(!player.getMoving() && charX + 1 < arrX && levelMap[charY][charX + 1] == 0) { //cek apakah bisa gerak ke arah tsb
+			if((!player.getMoving() && charX + 1 < arrX && levelMap[charY][charX + 1] == 0) 
+					|| (!player.getMoving() && charX + 1 < arrX && levelMap[charY][charX + 1] == KEY) 
+					|| ((!player.getMoving() && charX + 1 < arrX && levelMap[charY][charX + 1] == DOOR)) && (door.getOpen())) { //cek apakah bisa gerak ke arah tsb
 				do {
 					levelMap[charY][charX] = 0;
 					levelMap[charY][charX + 1] = 2;
@@ -155,10 +160,17 @@ abstract public class Level {
 				else if(charX + 1 < arrX && levelMap[charY][charX + 1] == 4) { //cek apakah sampai spot kalah
 					lose = true;
 				}
+				
+				if(charX + 1 < arrX && levelMap[charY][charX + 1] == KEY) {
+					key.setTaken(true);
+					door.open();
+				}
 			}
 			break;
 		case 'U':
-			if(!player.getMoving() && charY - 1 >= 0 && levelMap[charY - 1][charX] == 0) {
+			if((!player.getMoving() && charY - 1 >= 0 && levelMap[charY - 1][charX] == 0)
+					||(!player.getMoving() && charY - 1 >= 0 && levelMap[charY - 1][charX] == KEY)
+					|| (!player.getMoving() && charY - 1 >= 0 && levelMap[charY - 1][charX] == DOOR) && (door.getOpen())) {
 				do {
 					levelMap[charY][charX] = 0;
 					levelMap[charY - 1][charX] = 2;
@@ -171,10 +183,17 @@ abstract public class Level {
 				else if(charY - 1 >= 0 && levelMap[charY - 1][charX] == 4) {
 					lose = true;
 				}
+				
+				if(charY - 1 >= 0 && levelMap[charY - 1][charX] == KEY) {
+					key.setTaken(true);
+					door.open();
+				}
 			}
 			break;
 		case 'D':
-			if(!player.getMoving() && charY + 1 < arrY && levelMap[charY + 1][charX] == 0) {
+			if((!player.getMoving() && charY + 1 < arrY && levelMap[charY + 1][charX] == 0) 
+					||(!player.getMoving() && charY + 1 < arrY && levelMap[charY + 1][charX] == KEY)
+					||(!player.getMoving() && charY + 1 < arrY && levelMap[charY + 1][charX] == DOOR) && (door.getOpen())) {
 				do {
 					levelMap[charY][charX] = 0;
 					levelMap[charY + 1][charX] = 2;
@@ -187,10 +206,17 @@ abstract public class Level {
 				else if(charY + 1 < arrY && levelMap[charY + 1][charX] == 4) {
 					lose = true;
 				}
+				
+				if(charY + 1 < arrY && levelMap[charY + 1][charX] == KEY) {
+					key.setTaken(true);
+					door.open();
+				}
 			}
 			break;
 		case 'L':
-			if(!player.getMoving() && charX - 1 >= 0 && levelMap[charY][charX - 1] == 0) {
+			if((!player.getMoving() && charX - 1 >= 0 && levelMap[charY][charX - 1] == 0)
+					||(!player.getMoving() && charX - 1 >= 0 && levelMap[charY][charX - 1] == KEY)
+					||(!player.getMoving() && charX - 1 >= 0 && levelMap[charY][charX - 1] == DOOR) && (door.getOpen())) {
 				do {
 					levelMap[charY][charX] = 0;
 					levelMap[charY][charX - 1] = 2;
@@ -202,6 +228,11 @@ abstract public class Level {
 				}
 				else if(charX - 1 >= 0 && levelMap[charY][charX - 1] == 4) {
 					lose = true;
+				}
+				
+				if(charX - 1 >= 0 && levelMap[charY][charX - 1] == KEY) {
+					key.setTaken(true);
+					door.open();
 				}
 			}
 			break;

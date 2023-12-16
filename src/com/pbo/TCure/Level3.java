@@ -1,6 +1,5 @@
 package com.pbo.TCure;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -8,9 +7,9 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-public class Level2 extends Level{
+public class Level3 extends Level{
 	
-	static int winX, winY;
+	static int winX, winY, keyX, keyY;
 	static final int sizeX = 16, sizeY = 16;
 	List<Coin> coins;
 	List<Wall> walls;	
@@ -18,20 +17,20 @@ public class Level2 extends Level{
 	// 0 = empty, 1 = wall, 2 = player, 3 = goal / finish
 	static final int[][] levelMapTemplate = 
 		   {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3},
-			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1},
-			{1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
+			{1, 2, 1, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 3},
+			{1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 4, 1},
+			{1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-			{1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-			{1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-			{1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1},
-			{1, 0, 0, 0, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 6, 1},
 			{1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 1, 1, 1, 1}};
 	
 	static final int[][] coinMap = 
@@ -52,11 +51,13 @@ public class Level2 extends Level{
 			{0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 	
-	public Level2() {
+	public Level3() {
 		super(levelMapTemplate, 720, 720, 45);
 		arrX = sizeX;
 		arrY = sizeY;
 		this.player = new Player();
+		this.winSquare = new Win();
+		this.key = new Key();
 		this.win = false;
 		this.lose = false;
 		this.coins = new ArrayList<>();
@@ -91,6 +92,7 @@ public class Level2 extends Level{
 					player = new Player(j * boxSize, i * boxSize, boxSize, boxSize, 3, assetManager.getPlayer());
 					break;
 				case WIN:
+					winSquare = new Win(j * boxSize, i * boxSize, boxSize, boxSize, assetManager.getWin());
 					winX = j * boxSize;
 					winY = i * boxSize;
 					player.setWinX(winX);
@@ -98,6 +100,16 @@ public class Level2 extends Level{
 					break;
 				case TRAP:
 					traps.add(new Trap(j * boxSize, i * boxSize, boxSize, boxSize, assetManager.getTrap()));
+					break;
+				case DOOR:
+					door = new Door(j * boxSize, i * boxSize, boxSize, boxSize, assetManager.getDoor());
+					break;
+				case KEY:
+					key = new Key(j * boxSize, i * boxSize, boxSize, boxSize, assetManager.getKey());
+					keyX = j * boxSize;
+					keyY = i * boxSize;
+					door.setKeyX(keyX);
+					door.setKeyY(keyY);
 					break;
 				default:
 					break;
@@ -124,11 +136,21 @@ public class Level2 extends Level{
 			trap.draw(g, panel);
 		}
 		
-		this.player.draw(g, panel);
+		if(key.collide(player.getX(), player.getY())) {
+			this.key.setTaken(true);
+		}
 		
+		if(key.isTaken()) {
+			this.door.open();
+		}
+		
+		this.key.draw(g, panel);
+		this.player.draw(g, panel);
+		this.door.draw(g, panel);
+
 		// draw win zone
-		g.setColor(Color.yellow);
-		g.fillRect(winX, winY, getUnitSize(), getUnitSize());
+//		g.setColor(Color.yellow);
+//		g.fillRect(winX, winY, getUnitSize(), getUnitSize());
 	}
 	
 	@Override
@@ -145,9 +167,9 @@ public class Level2 extends Level{
 	}
 	
 	public Level getNextLevel() {
-		return new Level3();
+		return new Level1();
 	}
 	public Level RetryLevel() {
-		return new Level2();
+		return new Level3();
 	}
 }
