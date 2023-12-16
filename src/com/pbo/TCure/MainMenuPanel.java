@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 public class MainMenuPanel extends JPanel{
 	public MainMenuPanel() {
-setBackground(Color.blue); // Warna latar belakang biru
+		setBackground(Color.blue); // Warna latar belakang biru
 		
 		JButton startButton = new JButton("Mulai game");
 		startButton.addActionListener(this::mulaiGame);

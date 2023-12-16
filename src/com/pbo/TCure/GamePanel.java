@@ -80,7 +80,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		if(running) {
 			curr_level.draw(g, this);
 		} else if(this.curr_level.getWin()) {
-			YouWin(g);
+			win();
 		} else if (this.curr_level.getLose()) {
 			Lose();
 		}

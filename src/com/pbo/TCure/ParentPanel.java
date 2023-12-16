@@ -27,6 +27,7 @@ public class ParentPanel extends JPanel{
 		cardlayout.show(this, name);
 		
 		if(name == "GameScreen") {
+			game.startGame();
 			game.requestFocus();
 		} else if (name == "NextLevel") {
 			game.changeLevel(GamePanel.curr_level.getNextLevel());
