@@ -3,6 +3,8 @@ package com.pbo.TCure;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -47,6 +49,7 @@ import javax.swing.JPanel;
 
 
 abstract public class Level {
+	static int winX, winY, keyX, keyY;
 	protected int point;
 	protected Win winSquare;
 	protected Door door;
@@ -56,9 +59,12 @@ abstract public class Level {
 	private int width, height, unitSize;
 	boolean win = false, lose = false;
 	private Dimension currDimension;
-	private assetManager assets;
+	protected assetManager assets;
 	protected static final int EMPTY = 0, WALL = 1, PLAYER = 2, WIN = 3, TRAP = 4, DOOR = 5, KEY = 6, ENEMY = 7;
 	protected static int charX, charY, arrX, arrY;
+	protected List<Coin> coins;
+	protected List<Wall> walls;	
+	protected List<Trap> traps;	
 	
 	public Level() {
 	}
@@ -70,6 +76,9 @@ abstract public class Level {
 		this.unitSize = unitSize;
 		this.point = 0;
 		this.currDimension = new Dimension(width, height);
+		this.coins = new ArrayList<>();
+		this.walls = new ArrayList<>();
+		this.traps = new ArrayList<>();
 		initMap(level);
 	}
 	
@@ -82,6 +91,77 @@ abstract public class Level {
 		}
 	}
 	
+	public void initCoin(int[][] coinMap) {
+		for(int i = 0; i < getHeight()/getUnitSize(); i++) {
+			for(int j = 0; j < getWidth()/getUnitSize(); j++) {
+				if(coinMap[i][j] == 1) {
+					this.coins.add(new Coin(j * getUnitSize(), i * getUnitSize(), getUnitSize(), getUnitSize(), assetManager.getCoin()));
+				}
+			}
+		}
+	}
+	
+	public void initLevel() {
+		int boxSize = getUnitSize();
+		for(int i = 0; i < getHeight()/getUnitSize(); i++) {
+			for(int j = 0; j < getWidth()/getUnitSize(); j++) {
+				switch (levelMap[i][j]) {
+				case WALL:
+					this.walls.add(new Wall(j * boxSize, i * boxSize, boxSize, boxSize, assetManager.getWall()));
+					break;
+				case PLAYER:
+					charX = j;
+					charY = i;
+					this.player = new Player(j * boxSize, i * boxSize, boxSize, boxSize, 3, assetManager.getPlayer(), assetManager.getAtt());
+					break;
+				case WIN:
+					this.winSquare = new Win(j * boxSize, i * boxSize, boxSize, boxSize, assetManager.getWin());
+					winX = j * boxSize;
+					winY = i * boxSize;
+					break;
+				case TRAP:
+					this.traps.add(new Trap(j * boxSize, i * boxSize, boxSize, boxSize, assetManager.getTrap()));
+					break;
+				case DOOR:
+					this.door = new Door(j * boxSize, i * boxSize, boxSize, boxSize, assetManager.getDoor());
+					break;
+				case KEY:
+					this.key = new Key(j * boxSize, i * boxSize, boxSize, boxSize, assetManager.getKey());
+					keyX = j * boxSize;
+					keyY = i * boxSize;
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		player.setWinX(winX);
+		player.setWinY(winY);
+		if(door != null) {
+			door.setKeyX(keyX);
+			door.setKeyY(keyY);			
+		}
+	}
+	
+	public void redrawLevel() {
+		walls.clear();
+		traps.clear();
+		int boxSize = getUnitSize();
+		for(int i = 0; i < getHeight()/getUnitSize(); i++) {
+			for(int j = 0; j < getWidth()/getUnitSize(); j++) {
+				switch (levelMap[i][j]) {
+				case WALL:
+					walls.add(new Wall(j * boxSize, i * boxSize, boxSize, boxSize, assetManager.getWall()));
+					break;
+				case TRAP:
+					traps.add(new Trap(j * boxSize, i * boxSize, boxSize, boxSize, assetManager.getTrap()));
+					break;
+				default:
+					break;
+				}
+			}
+		}
+	}
 	
 	
 	public int[][] getLevel() {
@@ -143,12 +223,11 @@ abstract public class Level {
 //			}
 //			System.out.print('\n');
 //		}
-		
 		switch (direction) {
 		case 'R':
 			if(!player.getMoving() && ((charX + 1 < arrX && levelMap[charY][charX + 1] == EMPTY) 
-					|| (charX + 1 < arrX && levelMap[charY][charX + 1] == KEY) 
-					|| ((charX + 1 < arrX && levelMap[charY][charX + 1] == DOOR) && door.getOpen()))) { //cek apakah bisa gerak ke arah tsb
+				|| (charX + 1 < arrX && levelMap[charY][charX + 1] == KEY) 
+				|| ((charX + 1 < arrX && levelMap[charY][charX + 1] == DOOR) && door.getOpen()))) { //cek apakah bisa gerak ke arah tsb
 				do {
 					levelMap[charY][charX] = 0;
 					levelMap[charY][charX + 1] = 2;
@@ -172,8 +251,8 @@ abstract public class Level {
 			break;
 		case 'U':
 			if(!player.getMoving() && ((charY - 1 >= 0 && levelMap[charY - 1][charX] == 0)
-					||(charY - 1 >= 0 && levelMap[charY - 1][charX] == KEY)
-					|| ((charY - 1 >= 0 && levelMap[charY - 1][charX] == DOOR) && door.getOpen()))) {
+				||(charY - 1 >= 0 && levelMap[charY - 1][charX] == KEY)
+				|| ((charY - 1 >= 0 && levelMap[charY - 1][charX] == DOOR) && door.getOpen()))) {
 				do {
 					levelMap[charY][charX] = 0;
 					levelMap[charY - 1][charX] = 2;
@@ -197,8 +276,8 @@ abstract public class Level {
 			break;
 		case 'D':
 			if(!player.getMoving() && ((charY + 1 < arrY && levelMap[charY + 1][charX] == 0) 
-					||(charY + 1 < arrY && levelMap[charY + 1][charX] == KEY)
-					|| ((charY + 1 < arrY && levelMap[charY + 1][charX] == DOOR) && door.getOpen()))) {
+				||(charY + 1 < arrY && levelMap[charY + 1][charX] == KEY)
+				|| ((charY + 1 < arrY && levelMap[charY + 1][charX] == DOOR) && door.getOpen()))) {
 				do {
 					levelMap[charY][charX] = 0;
 					levelMap[charY + 1][charX] = 2;
@@ -222,8 +301,8 @@ abstract public class Level {
 			break;
 		case 'L':
 			if(!player.getMoving() && ((charX - 1 >= 0 && levelMap[charY][charX - 1] == 0)
-					||(charX - 1 >= 0 && levelMap[charY][charX - 1] == KEY)
-					||((levelMap[charY][charX - 1] == DOOR) && door.getOpen()))) {
+				||(charX - 1 >= 0 && levelMap[charY][charX - 1] == KEY)
+				||((levelMap[charY][charX - 1] == DOOR) && door.getOpen()))) {
 				do {
 					levelMap[charY][charX] = 0;
 					levelMap[charY][charX - 1] = 2;
@@ -253,31 +332,28 @@ abstract public class Level {
 	}
 	
 	public void attack() {
+		player.attack();
 		if ((levelMap[charY][charX + 1] == TRAP) || (levelMap[charY][charX + 1] == ENEMY)) {
 			levelMap[charY][charX + 1] = WALL;
 			System.out.println(levelMap[charY][charX + 1]);
-			initLevel();
+			redrawLevel();
 		}
 		if ((levelMap[charY][charX - 1] == TRAP) || (levelMap[charY][charX - 1] == ENEMY)) {
 			levelMap[charY][charX - 1] = WALL;
 			System.out.println(levelMap[charY][charX - 1]);
-			initLevel();
+			redrawLevel();
 		}
 		if ((levelMap[charY + 1][charX] == TRAP) || (levelMap[charY + 1][charX] == ENEMY)) {
 			levelMap[charY + 1][charX] = WALL;
 			System.out.println(levelMap[charY + 1][charX]);
-			initLevel();
+			redrawLevel();
 		}
 		if ((levelMap[charY - 1][charX] == TRAP) || (levelMap[charY - 1][charX] == ENEMY)) {
 			levelMap[charY - 1][charX] = WALL;
 			System.out.println(levelMap[charY - 1][charX]);
-			initLevel();
+			redrawLevel();
 		}
 	}
-	
-	abstract public void initCoin();
-	
-	abstract public void initLevel();
 	
 	abstract public void draw(Graphics g, JPanel panel);
 	

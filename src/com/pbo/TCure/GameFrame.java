@@ -1,10 +1,6 @@
 package com.pbo.TCure;
 
 import java.awt.BorderLayout;
-import java.awt.Graphics;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 public class GameFrame extends JFrame {

@@ -2,20 +2,11 @@ package com.pbo.TCure;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JPanel;
 
 public class Level3 extends Level{
-	
-	static int winX, winY, keyX, keyY;
 	static final int sizeX = 16, sizeY = 16;
-	List<Coin> coins;
-	List<Wall> walls;	
-	List<Trap> traps;	
-	// 0 = empty, 1 = wall, 2 = player, 3 = goal / finish
 	static final int[][] levelMapTemplate = 
 		   {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 			{1, 2, 1, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 3},
@@ -61,64 +52,9 @@ public class Level3 extends Level{
 		this.key = new Key();
 		this.win = false;
 		this.lose = false;
-		this.coins = new ArrayList<>();
-		this.walls = new ArrayList<>();
-		this.traps = new ArrayList<>();
 		this.point = 0;
-		initCoin();
+		initCoin(coinMap);
 		initLevel();
-	}
-	
-	public void initCoin() {
-		for(int i = 0; i < getHeight()/getUnitSize(); i++) {
-			for(int j = 0; j < getWidth()/getUnitSize(); j++) {
-				if(coinMap[i][j] == 1) {
-					coins.add(new Coin(j * getUnitSize(), i * getUnitSize(), getUnitSize(), getUnitSize(), assetManager.getCoin()));
-				}
-			}
-		}
-	}
-	
-	public void initLevel() {
-		walls.clear();
-		traps.clear();
-		int boxSize = getUnitSize();
-		for(int i = 0; i < getHeight()/getUnitSize(); i++) {
-			for(int j = 0; j < getWidth()/getUnitSize(); j++) {
-				switch (levelMap[i][j]) {
-				case WALL:
-					walls.add(new Wall(j * boxSize, i * boxSize, boxSize, boxSize, assetManager.getWall()));
-					break;
-				case PLAYER:
-					charX = j;
-					charY = i;
-					player = new Player(j * boxSize, i * boxSize, boxSize, boxSize, 3, assetManager.getPlayer());
-					break;
-				case WIN:
-					winSquare = new Win(j * boxSize, i * boxSize, boxSize, boxSize, assetManager.getWin());
-					winX = j * boxSize;
-					winY = i * boxSize;
-					player.setWinX(winX);
-					player.setWinY(winY);
-					break;
-				case TRAP:
-					traps.add(new Trap(j * boxSize, i * boxSize, boxSize, boxSize, assetManager.getTrap()));
-					break;
-				case DOOR:
-					door = new Door(j * boxSize, i * boxSize, boxSize, boxSize, assetManager.getDoor());
-					break;
-				case KEY:
-					key = new Key(j * boxSize, i * boxSize, boxSize, boxSize, assetManager.getKey());
-					keyX = j * boxSize;
-					keyY = i * boxSize;
-					break;
-				default:
-					break;
-				}
-			}
-		}
-		door.setKeyX(keyX);
-		door.setKeyY(keyY);
 	}
 	
 	@Override
@@ -155,13 +91,13 @@ public class Level3 extends Level{
 	
 	@Override
 	public void keyHandler(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+		if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
 			movementHandler('R');
-		} else if(e.getKeyCode() == KeyEvent.VK_UP) {
+		} else if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
 			movementHandler('U');
-		} else if (e.getKeyCode() == KeyEvent.VK_DOWN){
+		} else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S){
 			movementHandler('D');
-		} else if (e.getKeyCode() == KeyEvent.VK_LEFT){
+		} else if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A){
 			movementHandler('L');
 		}
 	}
@@ -171,10 +107,5 @@ public class Level3 extends Level{
 	}
 	public Level RetryLevel() {
 		return new Level3();
-	}
-	
-	public void MouseHandler(MouseEvent e) {
-		if(!player.getMoving())
-		this.attack();
 	}
 }

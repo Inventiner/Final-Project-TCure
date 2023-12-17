@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 public class assetManager {
-	private static BufferedImage wall, coin, player, trap, door, key, win;
+	private static BufferedImage wall, coin, player, trap, door, key, win, att;
 	public assetManager() {
 		try {
 			wall = ImageIO.read(getClass().getResource("/assets/Temp-Brain.png"));
@@ -14,6 +14,7 @@ public class assetManager {
 			door = ImageIO.read(getClass().getResource("/assets/Temp-Door.png"));
 			key = ImageIO.read(getClass().getResource("/assets/Temp-key.png"));
 			win = ImageIO.read(getClass().getResource("/assets/Temp-Win.png"));
+			att = ImageIO.read(getClass().getResource("/assets/attack.png"));
 		} catch (Exception e) {
 			System.out.println("Error when reading Image!");
 			System.out.println(e.toString()); 
@@ -39,5 +40,8 @@ public class assetManager {
 	}	
 	public static BufferedImage getWin() {
 		return win;
+	}	
+	public static BufferedImage getAtt() {
+		return att;
 	}	
 }

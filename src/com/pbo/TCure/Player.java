@@ -5,16 +5,20 @@ import java.awt.Image;
 import javax.swing.JPanel;
 
 public class Player {
+	private boolean attacking;
 	private int x, y, width, height;
 	private int targetX, targetY, winX, winY;
 	private int speed;
-	private static Image asset;
+	private static Image asset, attack;
+	private int count = 0;
 	
 	public Player() {
 	}
 	
-	public Player(int x, int y, int width, int height, int speed, Image img) {
+	public Player(int x, int y, int width, int height, int speed, Image img, Image att) {
+		this.attacking = false;
 		asset = img;
+		attack = att;
 		this.x = x;
 		this.y = y;
 		this.targetX = x;
@@ -74,6 +78,7 @@ public class Player {
 				this.x = this.targetX;
 			}
 		}
+		
 		if(this.y != this.targetY) {
 			if(this.y < this.targetY && this.y + this.speed < this.targetY) {
 				this.y += this.speed;
@@ -86,5 +91,17 @@ public class Player {
 			}
 		}
 		g.drawImage(asset, x, y, width, height, null);
+		
+		if(this.attacking) {
+			this.count++;
+			g.drawImage(attack, x-width, y-height, width * 3, height * 3, null);
+			if(count % 50 == 0) {
+				this.attacking = false;				
+			}
+		}
+	}
+	
+	public void attack() {
+		this.attacking = true;
 	}
 }

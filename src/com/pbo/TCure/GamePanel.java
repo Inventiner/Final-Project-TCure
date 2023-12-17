@@ -134,7 +134,9 @@ public class GamePanel extends JPanel implements KeyListener, MouseListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		curr_level.attack();
+		if(!curr_level.getPlayer().getMoving()) {
+			curr_level.attack();			
+		}
 		saySomething("Mouse clicked (# of clicks: "
                 + e.getClickCount() + ")", e);
 	}
