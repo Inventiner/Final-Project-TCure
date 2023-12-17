@@ -36,20 +36,20 @@ public class Level3 extends Level{
 	
 	static final int[][] coinMap = 
 		   {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
-			{0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0},
-			{0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0},
+			{0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+			{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0},
+			{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0},
+			{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0},
+			{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0},
+			{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0},
+			{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0},
+			{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0},
+			{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0},
+			{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0},
+			{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0},
+			{0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 	
 	public Level3() {
@@ -80,6 +80,8 @@ public class Level3 extends Level{
 	}
 	
 	public void initLevel() {
+		walls.clear();
+		traps.clear();
 		int boxSize = getUnitSize();
 		for(int i = 0; i < getHeight()/getUnitSize(); i++) {
 			for(int j = 0; j < getWidth()/getUnitSize(); j++) {
@@ -109,14 +111,14 @@ public class Level3 extends Level{
 					key = new Key(j * boxSize, i * boxSize, boxSize, boxSize, assetManager.getKey());
 					keyX = j * boxSize;
 					keyY = i * boxSize;
-					door.setKeyX(keyX);
-					door.setKeyY(keyY);
 					break;
 				default:
 					break;
 				}
 			}
 		}
+		door.setKeyX(keyX);
+		door.setKeyY(keyY);
 	}
 	
 	@Override
@@ -148,10 +150,7 @@ public class Level3 extends Level{
 		this.key.draw(g, panel);
 		this.player.draw(g, panel);
 		this.door.draw(g, panel);
-
-		// draw win zone
-//		g.setColor(Color.yellow);
-//		g.fillRect(winX, winY, getUnitSize(), getUnitSize());
+		this.winSquare.draw(g, panel);
 	}
 	
 	@Override
@@ -175,6 +174,7 @@ public class Level3 extends Level{
 	}
 	
 	public void MouseHandler(MouseEvent e) {
+		if(!player.getMoving())
 		this.attack();
 	}
 }

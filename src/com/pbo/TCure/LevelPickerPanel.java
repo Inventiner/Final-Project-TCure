@@ -7,6 +7,11 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class LevelPickerPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2929055348276831345L;
+
 	public LevelPickerPanel() {
 		setBackground(Color.blue); // Warna latar belakang biru
 		

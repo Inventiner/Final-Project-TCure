@@ -7,6 +7,11 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class MainMenuPanel extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7328034255109132598L;
+
 	public MainMenuPanel() {
 		setBackground(Color.blue); // Warna latar belakang biru
 		

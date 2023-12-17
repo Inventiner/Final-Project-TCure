@@ -1,10 +1,14 @@
 package com.pbo.TCure;
 
 import java.awt.BorderLayout;
+import java.awt.Graphics;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-@SuppressWarnings("serial")
 public class GameFrame extends JFrame {
+	private static final long serialVersionUID = 7332413315321181596L;
 	public static ParentPanel gameCanvas;
 	
 	public GameFrame() {

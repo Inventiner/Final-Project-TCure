@@ -137,12 +137,13 @@ abstract public class Level {
 	}
 
 	public void movementHandler(char direction) {
-		for(int i = 0; i < getHeight()/getUnitSize(); i++) {
-			for(int j = 0; j < getWidth()/getUnitSize(); j++) {
-				System.out.print(this.levelMap[i][j]);
-			}
-			System.out.print('\n');
-		}
+//		for(int i = 0; i < getHeight()/getUnitSize(); i++) {
+//			for(int j = 0; j < getWidth()/getUnitSize(); j++) {
+//				System.out.print(this.levelMap[i][j]);
+//			}
+//			System.out.print('\n');
+//		}
+		
 		switch (direction) {
 		case 'R':
 			if(!player.getMoving() && ((charX + 1 < arrX && levelMap[charY][charX + 1] == EMPTY) 
@@ -255,18 +256,22 @@ abstract public class Level {
 		if ((levelMap[charY][charX + 1] == TRAP) || (levelMap[charY][charX + 1] == ENEMY)) {
 			levelMap[charY][charX + 1] = WALL;
 			System.out.println(levelMap[charY][charX + 1]);
+			initLevel();
 		}
 		if ((levelMap[charY][charX - 1] == TRAP) || (levelMap[charY][charX - 1] == ENEMY)) {
 			levelMap[charY][charX - 1] = WALL;
 			System.out.println(levelMap[charY][charX - 1]);
+			initLevel();
 		}
 		if ((levelMap[charY + 1][charX] == TRAP) || (levelMap[charY + 1][charX] == ENEMY)) {
 			levelMap[charY + 1][charX] = WALL;
 			System.out.println(levelMap[charY + 1][charX]);
+			initLevel();
 		}
 		if ((levelMap[charY - 1][charX] == TRAP) || (levelMap[charY - 1][charX] == ENEMY)) {
 			levelMap[charY - 1][charX] = WALL;
-			System.out.println(levelMap[charY + 1][charX]);
+			System.out.println(levelMap[charY - 1][charX]);
+			initLevel();
 		}
 	}
 	

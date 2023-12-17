@@ -2,12 +2,14 @@ package com.pbo.TCure;
 
 import java.awt.CardLayout;	
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class ParentPanel extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4852823351708283398L;
 	private CardLayout cardlayout = new CardLayout();
 	static GamePanel game;
 	

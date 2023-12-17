@@ -11,6 +11,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class WinPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6792606481218821235L;
+
 	public WinPanel() {
 		setBackground(Color.green); //
 		JLabel label = new JLabel("You Win");

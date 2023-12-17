@@ -8,6 +8,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class LosePanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4130161060444139604L;
+
 	public LosePanel() {
 		setBackground(Color.red); //
 		JLabel label = new JLabel("YOU LOSE BRUHHHHH");

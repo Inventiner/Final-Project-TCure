@@ -1,17 +1,17 @@
 package com.pbo.TCure;
 
 import java.awt.Color;	
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Timer;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -19,14 +19,13 @@ import javax.swing.JPanel;
 public class GamePanel extends JPanel implements KeyListener, MouseListener{
 	static private JFrame gameFrame;
 	static int areaWidth, areaHeight, UNIT_SIZE;
-	static Level curr_level;
+	protected static Level curr_level;
 	static final int DELAY = 75;
 	boolean running = false;
 	boolean win = false;
 	Timer timer;
 	Random random;
 	private static int level_index = 1;
-
 
 	public GamePanel(JFrame masterFrame) {
 		gameFrame = masterFrame;
@@ -68,12 +67,15 @@ public class GamePanel extends JPanel implements KeyListener, MouseListener{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
+		//draw grid
+		g.setColor(new Color(151,151,151,90));
 		for(int i = 0; i < areaHeight/UNIT_SIZE; i++) {
 			g.drawLine(i*UNIT_SIZE, 0, i*UNIT_SIZE, areaHeight);
 		}
 		for(int i = 0; i < areaWidth/UNIT_SIZE; i++) {
 			g.drawLine(0, i*UNIT_SIZE, areaWidth, i*UNIT_SIZE);
 		}
+		
 
 		draw(g);
 	}
@@ -84,9 +86,9 @@ public class GamePanel extends JPanel implements KeyListener, MouseListener{
 		}
 		if(running) {
 			curr_level.draw(g, this);
-		} else if(this.curr_level.getWin()) {
+		} else if(curr_level.getWin()) {
 			win();
-		} else if (this.curr_level.getLose()) {
+		} else if (curr_level.getLose()) {
 			Lose();
 		}
 		repaint();
@@ -132,7 +134,7 @@ public class GamePanel extends JPanel implements KeyListener, MouseListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		this.curr_level.attack();
+		curr_level.attack();
 		saySomething("Mouse clicked (# of clicks: "
                 + e.getClickCount() + ")", e);
 	}
