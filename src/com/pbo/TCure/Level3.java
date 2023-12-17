@@ -2,6 +2,7 @@ package com.pbo.TCure;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -171,5 +172,9 @@ public class Level3 extends Level{
 	}
 	public Level RetryLevel() {
 		return new Level3();
+	}
+	
+	public void MouseHandler(MouseEvent e) {
+		this.attack();
 	}
 }

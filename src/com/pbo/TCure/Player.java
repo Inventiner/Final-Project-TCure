@@ -9,7 +9,6 @@ public class Player {
 	private int targetX, targetY, winX, winY;
 	private int speed;
 	private static Image asset;
-	private int health;
 	
 	public Player() {
 	}
@@ -23,15 +22,6 @@ public class Player {
 		this.height = height;
 		this.width = width;
 		this.speed = speed;
-		this.health = 3;
-	}
-	
-	public int getHealth() {
-		return health;
-	}
-
-	public void setHealth(int health) {
-		this.health = health;
 	}
 	
 	public void update(int x, int y) {

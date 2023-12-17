@@ -57,7 +57,7 @@ abstract public class Level {
 	boolean win = false, lose = false;
 	private Dimension currDimension;
 	private assetManager assets;
-	protected static final int EMPTY = 0, WALL = 1, PLAYER = 2, WIN = 3, TRAP = 4, DOOR = 5, KEY = 6;
+	protected static final int EMPTY = 0, WALL = 1, PLAYER = 2, WIN = 3, TRAP = 4, DOOR = 5, KEY = 6, ENEMY = 7;
 	protected static int charX, charY, arrX, arrY;
 	
 	public Level() {
@@ -249,6 +249,25 @@ abstract public class Level {
 		}
 		System.out.println("New X Target: " + charX * getUnitSize() + "New Y Target: " + charY * getUnitSize());
 		player.update(charX * getUnitSize(), charY * getUnitSize());
+	}
+	
+	public void attack() {
+		if ((levelMap[charY][charX + 1] == TRAP) || (levelMap[charY][charX + 1] == ENEMY)) {
+			levelMap[charY][charX + 1] = WALL;
+			System.out.println(levelMap[charY][charX + 1]);
+		}
+		if ((levelMap[charY][charX - 1] == TRAP) || (levelMap[charY][charX - 1] == ENEMY)) {
+			levelMap[charY][charX - 1] = WALL;
+			System.out.println(levelMap[charY][charX - 1]);
+		}
+		if ((levelMap[charY + 1][charX] == TRAP) || (levelMap[charY + 1][charX] == ENEMY)) {
+			levelMap[charY + 1][charX] = WALL;
+			System.out.println(levelMap[charY + 1][charX]);
+		}
+		if ((levelMap[charY - 1][charX] == TRAP) || (levelMap[charY - 1][charX] == ENEMY)) {
+			levelMap[charY - 1][charX] = WALL;
+			System.out.println(levelMap[charY + 1][charX]);
+		}
 	}
 	
 	abstract public void initCoin();

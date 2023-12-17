@@ -6,6 +6,9 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.Random;
 import java.util.Timer;
 
@@ -13,7 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class GamePanel extends JPanel implements KeyListener{
+public class GamePanel extends JPanel implements KeyListener, MouseListener{
 	static private JFrame gameFrame;
 	static int areaWidth, areaHeight, UNIT_SIZE;
 	static Level curr_level;
@@ -28,6 +31,7 @@ public class GamePanel extends JPanel implements KeyListener{
 	public GamePanel(JFrame masterFrame) {
 		gameFrame = masterFrame;
 		curr_level = new Level1();
+		addMouseListener(this);
 		addKeyListener(this);
 		setPreferredSize(curr_level.getCurrDimension());
 		areaWidth = curr_level.getWidth();
@@ -35,6 +39,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		UNIT_SIZE = curr_level.getUnitSize();
 		setBackground(Color.BLACK);
 		setFocusable(true);
+        
 
 		startGame();
 	}
@@ -124,4 +129,42 @@ public class GamePanel extends JPanel implements KeyListener{
 		ParentPanel parent = (ParentPanel) getParent();
 		parent.showPanel("Lose");
 	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		this.curr_level.attack();
+		saySomething("Mouse clicked (# of clicks: "
+                + e.getClickCount() + ")", e);
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+    void saySomething(String eventDescription, MouseEvent e) {
+        System.out.println(eventDescription + " detected on "
+                        + e.getComponent().getClass().getName()
+                        + "." + "\n");
+    }
+	
 }
