@@ -65,6 +65,7 @@ abstract public class Level {
 	protected List<Coin> coins;
 	protected List<Wall> walls;	
 	protected List<Trap> traps;	
+	protected List<Enemy> enemies;
 	
 	public Level() {
 	}
@@ -79,6 +80,7 @@ abstract public class Level {
 		this.coins = new ArrayList<>();
 		this.walls = new ArrayList<>();
 		this.traps = new ArrayList<>();
+		this.enemies = new ArrayList<>();
 		initMap(level);
 	}
 	
@@ -130,10 +132,16 @@ abstract public class Level {
 					keyX = j * boxSize;
 					keyY = i * boxSize;
 					break;
+				case ENEMY:
+					this.enemies.add(new Enemy(j * boxSize, i * boxSize, boxSize, boxSize, assetManager.getEnemy(), assetManager.getKey(), levelMap));
+					break;
 				default:
 					break;
 				}
 			}
+		}
+		for(Enemy enemy: enemies) {
+			enemy.setPlayer(this.player);
 		}
 		player.setWinX(winX);
 		player.setWinY(winY);
@@ -333,25 +341,35 @@ abstract public class Level {
 	
 	public void attack() {
 		player.attack();
-		if ((levelMap[charY][charX + 1] == TRAP) || (levelMap[charY][charX + 1] == ENEMY)) {
+		if (levelMap[charY][charX + 1] == TRAP) {
 			levelMap[charY][charX + 1] = WALL;
 			System.out.println(levelMap[charY][charX + 1]);
 			redrawLevel();
+		} else if (levelMap[charY][charX + 1] == ENEMY) {
 		}
-		if ((levelMap[charY][charX - 1] == TRAP) || (levelMap[charY][charX - 1] == ENEMY)) {
+		
+		
+		if (levelMap[charY][charX - 1] == TRAP) {
 			levelMap[charY][charX - 1] = WALL;
 			System.out.println(levelMap[charY][charX - 1]);
 			redrawLevel();
+		} else if (levelMap[charY][charX - 1] == ENEMY) {
 		}
-		if ((levelMap[charY + 1][charX] == TRAP) || (levelMap[charY + 1][charX] == ENEMY)) {
+		
+		
+		if (levelMap[charY + 1][charX] == TRAP) {
 			levelMap[charY + 1][charX] = WALL;
 			System.out.println(levelMap[charY + 1][charX]);
-			redrawLevel();
+			redrawLevel();	
+		} else if (levelMap[charY + 1][charX] == ENEMY) {
 		}
-		if ((levelMap[charY - 1][charX] == TRAP) || (levelMap[charY - 1][charX] == ENEMY)) {
+		
+		
+		if (levelMap[charY - 1][charX] == TRAP) { 
 			levelMap[charY - 1][charX] = WALL;
 			System.out.println(levelMap[charY - 1][charX]);
-			redrawLevel();
+			redrawLevel();			
+		} else if (levelMap[charY - 1][charX] == ENEMY) {
 		}
 	}
 	

@@ -103,7 +103,7 @@ public class Level3 extends Level{
 	}
 	
 	public Level getNextLevel() {
-		return new Level1();
+		return new Level4();
 	}
 	public Level RetryLevel() {
 		return new Level3();

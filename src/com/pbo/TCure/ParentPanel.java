@@ -58,6 +58,10 @@ public class ParentPanel extends JPanel{
 			game.changeLevel(new Level3());
 			cardlayout.show(this, "GameScreen");
 			game.requestFocus();
+		} else if (level == "Level4") {
+			game.changeLevel(new Level4());
+			cardlayout.show(this, "GameScreen");
+			game.requestFocus();
 		}
 		
 	}

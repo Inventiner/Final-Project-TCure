@@ -19,13 +19,16 @@ public class LevelPickerPanel extends JPanel {
 		JButton PickLevel1 = new JButton("Level 1");
 		JButton PickLevel2 = new JButton("Level 2");
 		JButton PickLevel3 = new JButton("Level 3");
+		JButton PickLevel4 = new JButton("Level 4");
 		BacktoMenu.addActionListener(this::BackToMenu);
 		PickLevel1.addActionListener(this::picklevel1);
 		PickLevel2.addActionListener(this::picklevel2);
 		PickLevel3.addActionListener(this::picklevel3);
+		PickLevel4.addActionListener(this::picklevel4);
 		add(PickLevel1);
 		add(PickLevel2);
 		add(PickLevel3);
+		add(PickLevel4);
 		add(BacktoMenu);
 	}
 	
@@ -47,5 +50,10 @@ public class LevelPickerPanel extends JPanel {
 	private void picklevel3(ActionEvent e) {
 		ParentPanel parent = (ParentPanel) getParent();
 		parent.levelPicker("Level3");
+	}
+	
+	private void picklevel4(ActionEvent e) {
+		ParentPanel parent = (ParentPanel) getParent();
+		parent.levelPicker("Level4");
 	}
 }
