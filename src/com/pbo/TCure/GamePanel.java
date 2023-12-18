@@ -16,7 +16,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class GamePanel extends JPanel implements KeyListener, MouseListener{
+public class GamePanel extends JPanel implements KeyListener, MouseListener {
+	static final int REFRESH_RATE = 75;
 	static private JFrame gameFrame;
 	static int areaWidth, areaHeight, UNIT_SIZE;
 	protected static Level curr_level;
@@ -55,14 +56,26 @@ public class GamePanel extends JPanel implements KeyListener, MouseListener{
 		gameFrame.pack();
 		startGame();
 		validate();
-		repaint();
 	}
 	
 	public void startGame() {
 		running = true;
 		timer = new Timer();			
+		Thread gameThread = new Thread() {
+			public void run() {
+				while (running) {
+					repaint();
+					try {
+						Thread.sleep(1000 / REFRESH_RATE);
+					} catch (InterruptedException ex) {
+						System.out.println(ex.getLocalizedMessage());
+					}
+				}
+			}
+		};
+		gameThread.start();
 	}
-
+	
 	// Draw Grid For Easy seeing grid
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -91,7 +104,6 @@ public class GamePanel extends JPanel implements KeyListener, MouseListener{
 		} else if (curr_level.getLose()) {
 			Lose();
 		}
-		repaint();
 	}
 
 	public void YouWin(Graphics g) {
