@@ -6,17 +6,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Random;
 import java.util.Timer;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-@SuppressWarnings("serial")
 public class GamePanel extends JPanel implements KeyListener, MouseListener {
+	private static final long serialVersionUID = 2057912618763991377L;
 	static final int REFRESH_RATE = 75;
 	static private JFrame gameFrame;
 	static int areaWidth, areaHeight, UNIT_SIZE;
@@ -39,7 +36,6 @@ public class GamePanel extends JPanel implements KeyListener, MouseListener {
 		UNIT_SIZE = curr_level.getUnitSize();
 		setBackground(Color.BLACK);
 		setFocusable(true);
-        
 
 		startGame();
 	}
@@ -88,7 +84,6 @@ public class GamePanel extends JPanel implements KeyListener, MouseListener {
 		for(int i = 0; i < areaWidth/UNIT_SIZE; i++) {
 			g.drawLine(0, i*UNIT_SIZE, areaWidth, i*UNIT_SIZE);
 		}
-		
 
 		draw(g);
 	}
@@ -146,41 +141,25 @@ public class GamePanel extends JPanel implements KeyListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		System.out.println("Clicked!\n");
 		if(!curr_level.getPlayer().getMoving()) {
-			curr_level.attack();			
+			curr_level.attack();
 		}
-		saySomething("Mouse clicked (# of clicks: "
-                + e.getClickCount() + ")", e);
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
-	
-    void saySomething(String eventDescription, MouseEvent e) {
-        System.out.println(eventDescription + " detected on "
-                        + e.getComponent().getClass().getName()
-                        + "." + "\n");
-    }
-	
 }
