@@ -54,7 +54,7 @@ public class Level3 extends Level{
 		this.lose = false;
 		this.point = 0;
 		initCoin(coinMap);
-		initLevel();
+		initLevel(this);
 	}
 	
 	@Override

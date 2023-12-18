@@ -48,7 +48,7 @@ public class Level1 extends Level{
 		arrY = sizeY;
 		this.point = 0;
 		initCoin(coinMap);
-		initLevel();
+		initLevel(this);
 	}
 	
 	@Override

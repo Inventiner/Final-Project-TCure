@@ -5,7 +5,7 @@ import java.awt.Image;
 import javax.swing.JPanel;
 
 public class Player {
-	private boolean attacking;
+	private boolean attacking, alive;
 	private int x, y, width, height;
 	private int targetX, targetY, winX, winY;
 	private int speed;
@@ -16,6 +16,7 @@ public class Player {
 	}
 	
 	public Player(int x, int y, int width, int height, int speed, Image img, Image att) {
+		this.alive = true;
 		this.attacking = false;
 		asset = img;
 		attack = att;
@@ -98,6 +99,16 @@ public class Player {
 			if(count % 50 == 0) {
 				this.attacking = false;				
 			}
+		}
+	}
+	
+	public boolean isAlive() {
+		return this.alive;
+	}
+	
+	public void collide(int bulletX, int bulletY) {
+		if(this.x < (bulletX + this.width) && this.x >= bulletX && this.y < (bulletY + this.height) && this.y >= bulletY) {
+			this.alive = false;
 		}
 	}
 	

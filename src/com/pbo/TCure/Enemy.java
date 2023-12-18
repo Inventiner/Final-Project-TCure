@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.Math;
 
 import javax.swing.JPanel;
 
@@ -15,11 +16,12 @@ public class Enemy {
 	protected List<Bullet> bullets;
 	private int count = 0;
 	private Player player;
+	Level curr_Level;
 	
 	public Enemy() {
 	}
 	
-	public Enemy(int x, int y, int width, int height, Image img, Image bullet, int[][] map) {
+	public Enemy(int x, int y, int width, int height, Image img, Image bullet, int[][] map, Level level) {
 		this.x = x;
 		this.y = y;
 		this.height = height;
@@ -28,6 +30,7 @@ public class Enemy {
 		bulletAsset = bullet;
 		this.map = map;
 		bullets = new ArrayList<>();
+		curr_Level = level;
 	}
 	
 	public void setPlayer(Player player) {
@@ -72,10 +75,17 @@ public class Enemy {
 		for(Bullet bullet : bullets) {
 			if(map[bullet.getY()/height][bullet.getX()/width] != 0) {
 				bullet.hitwall();
+			} else if(map[(int)Math.ceil( (double) bullet.getY()/height)][(int)Math.ceil( (double) bullet.getX()/width)] != 0) {
+				bullet.hitwall();
 			}
-			if(player.getX() == -1) {
-				// To Do Collision checker
+			
+			player.collide(bullet.getX(), bullet.getY());
+
+			if(!player.isAlive()) {
+				player.update(player.getX(), player.getY());
+				curr_Level.dead();
 			}
+							
 			bullet.draw(g, panel);
 		}
 	}

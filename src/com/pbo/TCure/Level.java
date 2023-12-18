@@ -103,7 +103,7 @@ abstract public class Level {
 		}
 	}
 	
-	public void initLevel() {
+	public void initLevel(Level curr_level) {
 		int boxSize = getUnitSize();
 		for(int i = 0; i < getHeight()/getUnitSize(); i++) {
 			for(int j = 0; j < getWidth()/getUnitSize(); j++) {
@@ -133,7 +133,7 @@ abstract public class Level {
 					keyY = i * boxSize;
 					break;
 				case ENEMY:
-					this.enemies.add(new Enemy(j * boxSize, i * boxSize, boxSize, boxSize, assetManager.getEnemy(), assetManager.getKey(), levelMap));
+					this.enemies.add(new Enemy(j * boxSize, i * boxSize, boxSize, boxSize, assetManager.getEnemy(), assetManager.getKey(), levelMap, curr_level));
 					break;
 				default:
 					break;
@@ -244,17 +244,21 @@ abstract public class Level {
 						|| (charX + 1 < arrX && levelMap[charY][charX + 1] == KEY) 
 						|| ((charX + 1 < arrX && levelMap[charY][charX + 1] == DOOR) && door.getOpen()))); //gerak terus hingga nabrak tembok / menang / kena musuh (TBA)
 				
-				if(charX + 1 < arrX && levelMap[charY][charX + 1] == 3) { //cek apakah sampai spot menang
+				if(charX + 1 < arrX && levelMap[charY][charX + 1] == WIN) { //cek apakah sampai spot menang
 					win = true;
 				}				
-				else if(charX + 1 < arrX && levelMap[charY][charX + 1] == 4) { //cek apakah sampai spot kalah
-					lose = true;
+				else if(charX + 1 < arrX && levelMap[charY][charX + 1] == TRAP) { //cek apakah sampai spot kalah
+					dead();
 				}
 				
 //				if(charX + 1 < arrX && levelMap[charY][charX + 1] == KEY) {
 //					key.setTaken(true);
 //					door.open();
 //				}
+			} else if(!player.getMoving() && (charX + 1 < arrX && levelMap[charY][charX + 1] == WIN)) {
+				win = true;
+			} else if(!player.getMoving() && (charX + 1 < arrX && levelMap[charY][charX + 1] == TRAP)) {
+				dead();
 			}
 			break;
 		case 'U':
@@ -269,17 +273,21 @@ abstract public class Level {
 						||(charY - 1 >= 0 && levelMap[charY - 1][charX] == KEY)
 						|| ((charY - 1 >= 0 && levelMap[charY - 1][charX] == DOOR) && door.getOpen())));
 				
-				if(charY - 1 >= 0 && levelMap[charY - 1][charX] == 3) {
+				if(charY - 1 >= 0 && levelMap[charY - 1][charX] == WIN) {
 					win = true;						
 				}
-				else if(charY - 1 >= 0 && levelMap[charY - 1][charX] == 4) {
-					lose = true;
+				else if(charY - 1 >= 0 && levelMap[charY - 1][charX] == TRAP) {
+					dead();
 				}
 				
 //				if(charY - 1 >= 0 && levelMap[charY - 1][charX] == KEY) {
 //					key.setTaken(true);
 //					door.open();
 //				}
+			} else if(!player.getMoving() && (charY - 1 >= 0 && levelMap[charY - 1][charX] == WIN)) {
+				win = true;
+			} else if(!player.getMoving() && (charY - 1 >= 0 && levelMap[charY - 1][charX] == TRAP)) {
+				dead();
 			}
 			break;
 		case 'D':
@@ -294,17 +302,21 @@ abstract public class Level {
 						||(charY + 1 < arrY && levelMap[charY + 1][charX] == KEY)
 						|| ((charY + 1 < arrY && levelMap[charY + 1][charX] == DOOR) && door.getOpen())));
 				
-				if(charY + 1 < arrY && levelMap[charY + 1][charX] == 3) {
+				if(charY + 1 < arrY && levelMap[charY + 1][charX] == WIN) {
 					win = true;
 				}
-				else if(charY + 1 < arrY && levelMap[charY + 1][charX] == 4) {
-					lose = true;
+				else if(charY + 1 < arrY && levelMap[charY + 1][charX] == TRAP) {
+					dead();
 				}
 				
 //				if(charY + 1 < arrY && levelMap[charY + 1][charX] == KEY) {
 //					key.setTaken(true);
 //					door.open();
 //				}
+			} else if(!player.getMoving() && (charY + 1 < arrY && levelMap[charY + 1][charX] == WIN)) {
+				win = true;
+			} else if(!player.getMoving() && (charY + 1 < arrY && levelMap[charY + 1][charX] == TRAP)) {
+				dead();
 			}
 			break;
 		case 'L':
@@ -323,13 +335,17 @@ abstract public class Level {
 					win = true;
 				}
 				else if(charX - 1 >= 0 && levelMap[charY][charX - 1] == 4) {
-					lose = true;
+					dead();
 				}
 				
 //				if(charX - 1 >= 0 && levelMap[charY][charX - 1] == KEY) {
 //					key.setTaken(true);
 //					door.open();
 //				}
+			} else if(!player.getMoving() && (charX - 1 >= 0 && levelMap[charY][charX - 1] == WIN)) {
+				win = true;
+			} else if(!player.getMoving() && (charX - 1 >= 0 && levelMap[charY][charX - 1] == TRAP)) {
+				dead();
 			}
 			break;
 		default:
@@ -337,6 +353,10 @@ abstract public class Level {
 		}
 		System.out.println("New X Target: " + charX * getUnitSize() + "New Y Target: " + charY * getUnitSize());
 		player.update(charX * getUnitSize(), charY * getUnitSize());
+	}
+	
+	public void dead() {
+		lose = true;
 	}
 	
 	public void attack() {
