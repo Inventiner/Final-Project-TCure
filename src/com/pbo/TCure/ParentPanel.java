@@ -24,6 +24,9 @@ public class ParentPanel extends JPanel{
 		add(new WinPanel(), "Win");
 		add(new LosePanel(), "Lose");
 		add(new LevelPickerPanel(), "Level");
+		add(new LorePanel1(), "Lore1");
+		add(new LorePanel2(), "Lore2");
+		add(new TutorialPanel(), "Tutorial");
 	}
 	
 	public void showPanel(String name) {
