@@ -169,7 +169,7 @@ public class Player {
 		}
 		
 		this.SpriteCount++;
-		if(this.SpriteCount>300){
+		if(this.SpriteCount>100){
 			if(this.SpriteNum == 1) {
 				this.SpriteNum = 2;
 			}
@@ -188,73 +188,67 @@ public class Player {
 		g.drawImage(image, x, y, width, height, null);
 		
 		if(this.attacking) {
-//			this.ShieldCount++;
-//			if(this.ShieldCount>14){
-//				if(this.ShieldNum == 1) {
-//					this.ShieldNum = 2;
-//				}
-//				else if(this.ShieldNum == 2) {
-//					this.ShieldNum = 3;
-//				}
-//				else if(this.ShieldNum == 3) {
-//					this.ShieldNum = 4;
-//				}
-//				else if(this.ShieldNum == 4) {
-//					this.ShieldNum = 5;
-//				}
-//				else if(this.ShieldNum == 5) {
-//					this.ShieldNum = 6;
-//				}
-//				else if(this.ShieldNum == 6) {
-//					this.ShieldNum = 7;
-//				}
-//				else if(this.ShieldNum == 7) {
-//					this.ShieldNum = 8;
-//				}
-//				else if(this.ShieldNum == 8) {
-//					this.ShieldNum = 9;
-//				}
-//				else if(this.ShieldNum == 9) {
-//					this.ShieldNum = 10;
-//				}
-//				else if(this.ShieldNum == 10) {
-//					this.ShieldNum = 11;
-//				}
-//				else if(this.ShieldNum == 11) {
-//					this.ShieldNum = 12;
-//				}
-//				else if(this.ShieldNum == 12) {
-//					this.ShieldNum = 13;
-//				}
-//				else if(this.ShieldNum == 13) {
-//					this.ShieldNum = 14;
-//				}
-//				else if(this.ShieldNum == 14) {
-//					this.ShieldNum = 1;
-//				}
-//				this.ShieldCount = 0;
-//			}
-			for(int i=1; i<=14;i++) {
-				this.ShieldNum = i;
-				if(this.ShieldNum == 1) image = attack1;
-				if(this.ShieldNum == 2) image = attack2;
-				if(this.ShieldNum == 3) image = attack3;
-				if(this.ShieldNum == 4) image = attack4;
-				if(this.ShieldNum == 5) image = attack5;
-				if(this.ShieldNum == 6) image = attack6;
-				if(this.ShieldNum == 7) image = attack7;
-				if(this.ShieldNum == 8) image = attack8;
-				if(this.ShieldNum == 9) image = attack9;
-				if(this.ShieldNum == 10) image = attack10;
-				if(this.ShieldNum == 11) image = attack11;
-				if(this.ShieldNum == 12) image = attack12;
-				if(this.ShieldNum == 13) image = attack13;
-				if(this.ShieldNum == 14) image = attack14;
-				g.drawImage(attackimage, x-width, y-height, width * 3, height * 3, null);
-				if(ShieldCount == 14) {
-					this.attacking = false;				
-				}	
+			this.ShieldCount++;
+			if(this.ShieldCount>30){
+				if(this.ShieldNum == 1) {
+					this.ShieldNum = 2;
+				}
+				else if(this.ShieldNum == 2) {
+					this.ShieldNum = 3;
+				}
+				else if(this.ShieldNum == 3) {
+					this.ShieldNum = 4;
+				}
+				else if(this.ShieldNum == 4) {
+					this.ShieldNum = 5;
+				}
+				else if(this.ShieldNum == 5) {
+					this.ShieldNum = 6;
+				}
+				else if(this.ShieldNum == 6) {
+					this.ShieldNum = 7;
+				}
+				else if(this.ShieldNum == 7) {
+					this.ShieldNum = 8;
+				}
+				else if(this.ShieldNum == 8) {
+					this.ShieldNum = 9;
+				}
+				else if(this.ShieldNum == 9) {
+					this.ShieldNum = 10;
+				}
+				else if(this.ShieldNum == 10) {
+					this.ShieldNum = 11;
+				}
+				else if(this.ShieldNum == 11) {
+					this.ShieldNum = 12;
+				}
+				else if(this.ShieldNum == 12) {
+					this.ShieldNum = 13;
+				}
+				else if(this.ShieldNum == 13) {
+					this.ShieldNum = 14;
+				}
+				else if(this.ShieldNum == 14) {
+					this.ShieldNum = 1;
+					this.attacking = false;	
+				}
 			}
+				if(this.ShieldNum == 1) attackimage = attack1;
+				if(this.ShieldNum == 2) attackimage = attack2;
+				if(this.ShieldNum == 3) attackimage = attack3;
+				if(this.ShieldNum == 4) attackimage = attack4;
+				if(this.ShieldNum == 5) attackimage = attack5;
+				if(this.ShieldNum == 6) attackimage = attack6;
+				if(this.ShieldNum == 7) attackimage = attack7;
+				if(this.ShieldNum == 8) attackimage = attack8;
+				if(this.ShieldNum == 9) attackimage = attack9;
+				if(this.ShieldNum == 10) attackimage = attack10;
+				if(this.ShieldNum == 11) attackimage = attack11;
+				if(this.ShieldNum == 12) attackimage = attack12;
+				if(this.ShieldNum == 13) attackimage = attack13;
+				if(this.ShieldNum == 14) attackimage = attack14;
+				g.drawImage(attackimage, x-width, y-height, width * 3, height * 3, null);
 		}
 	}
 	
