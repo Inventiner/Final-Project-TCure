@@ -391,6 +391,30 @@ abstract public class Level {
 			redrawLevel();			
 		} else if (levelMap[charY - 1][charX] == ENEMY) {
 		}
+		if (levelMap[charY - 1][charX - 1] == TRAP) { 
+			levelMap[charY - 1][charX - 1] = WALL;
+			System.out.println(levelMap[charY - 1][charX]);
+			redrawLevel();			
+		} else if (levelMap[charY - 1][charX - 1] == ENEMY) {
+		}
+		if (levelMap[charY - 1][charX + 1] == TRAP) { 
+			levelMap[charY - 1][charX + 1] = WALL;
+			System.out.println(levelMap[charY - 1][charX]);
+			redrawLevel();			
+		} else if (levelMap[charY - 1][charX - 1] == ENEMY) {
+		}
+		if (levelMap[charY + 1][charX + 1] == TRAP) { 
+			levelMap[charY + 1][charX + 1] = WALL;
+			System.out.println(levelMap[charY - 1][charX]);
+			redrawLevel();			
+		} else if (levelMap[charY - 1][charX - 1] == ENEMY) {
+		}
+		if (levelMap[charY + 1][charX - 1] == TRAP) { 
+			levelMap[charY + 1][charX - 1] = WALL;
+			System.out.println(levelMap[charY - 1][charX]);
+			redrawLevel();			
+		} else if (levelMap[charY - 1][charX - 1] == ENEMY) {
+		}
 	}
 	
 	abstract public void draw(Graphics g, JPanel panel);
