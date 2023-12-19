@@ -6,6 +6,8 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 import javax.swing.JPanel;
 
 /*
@@ -246,7 +248,7 @@ abstract public class Level {
 				
 				if(charX + 1 < arrX && levelMap[charY][charX + 1] == WIN) { //cek apakah sampai spot menang
 					win = true;
-				}				
+				}
 				else if(charX + 1 < arrX && levelMap[charY][charX + 1] == TRAP) { //cek apakah sampai spot kalah
 					dead();
 				}
@@ -351,8 +353,8 @@ abstract public class Level {
 		default:
 			break;
 		}
-		System.out.println("New X Target: " + charX * getUnitSize() + "New Y Target: " + charY * getUnitSize());
 		player.update(charX * getUnitSize(), charY * getUnitSize());
+		System.out.println("New X Target: " + charX * getUnitSize() + "New Y Target: " + charY * getUnitSize());
 	}
 	
 	public void dead() {

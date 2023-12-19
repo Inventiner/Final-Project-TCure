@@ -44,7 +44,7 @@ public class Enemy {
 	public int getY() {
 		return this.y;
 	}
-	
+		
 	public void draw(Graphics g, JPanel panel) {
 		if(this.alive) {				
 			g.drawImage(asset, x, y, width, height, null);

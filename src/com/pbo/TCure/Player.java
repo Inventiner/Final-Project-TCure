@@ -3,8 +3,8 @@ package com.pbo.TCure;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import javax.swing.JPanel;
 
 public class Player {
@@ -16,6 +16,8 @@ public class Player {
 								idleL1, idleL2, idleL3, idleL4, 
 								attack1, attack2, attack3, attack4, attack5, attack6, attack7, attack8, attack9, attack10,
 								 attack11, attack12, attack13, attack14;
+	private AudioInputStream shieldSfx, moveSfx;
+	private Clip shieldClip, moveClip;
 	private int ShieldCount = 0;
 	private int ShieldNum = 1;
 	private int SpriteCount = 0;
@@ -36,6 +38,18 @@ public class Player {
 		this.width = width;
 		this.speed = speed;
 		getplayerimage();
+		try {
+			this.shieldSfx = AudioSystem.getAudioInputStream(this.getClass().getResource("/sfx/shield.wav"));			
+			this.shieldClip = AudioSystem.getClip();
+			this.shieldClip.open(shieldSfx);
+			
+			this.moveSfx = AudioSystem.getAudioInputStream(this.getClass().getResource("/sfx/move.wav"));			
+			this.moveClip = AudioSystem.getClip();
+			this.moveClip.open(moveSfx);
+		} catch (Exception e) {
+			System.out.println(getClass().getName() + ":");
+			System.out.println(e.toString());
+		}
 	}
 	
 	public void getplayerimage() {
@@ -75,6 +89,8 @@ public class Player {
 	}
 	
 	public void update(int x, int y) {
+		this.moveClip.setFramePosition(0);
+		this.moveClip.start();
 		this.targetX = x;
 		this.targetY = y;
 	}
@@ -189,8 +205,10 @@ public class Player {
 		
 		if(this.attacking) {
 			this.ShieldCount++;
-			if(this.ShieldCount>30){
+			if(this.ShieldCount > 30) {
 				if(this.ShieldNum == 1) {
+					this.shieldClip.setFramePosition(0);
+					this.shieldClip.start();
 					this.ShieldNum = 2;
 				}
 				else if(this.ShieldNum == 2) {
