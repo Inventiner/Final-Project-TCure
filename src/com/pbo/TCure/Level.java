@@ -2,12 +2,13 @@ package com.pbo.TCure;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+// import java.awt.Image;
 import java.awt.event.KeyEvent;
+// import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
+// import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 /*
@@ -61,6 +62,7 @@ abstract public class Level {
 	private int width, height, unitSize;
 	boolean win = false, lose = false;
 	private Dimension currDimension;
+	// private Image backgroundImage;
 	protected assetManager assets;
 	protected static final int EMPTY = 0, WALL = 1, PLAYER = 2, WIN = 3, TRAP = 4, DOOR = 5, KEY = 6, ENEMY = 7;
 	protected static int charX, charY, arrX, arrY;
@@ -73,6 +75,13 @@ abstract public class Level {
 	}
 	
 	public Level(int[][] level, int width, int height, int unitSize) {
+		// try {
+        //     // Load the background image
+        //     backgroundImage = ImageIO.read(getClass().getResource("/assets/bglevel.png"));
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        // }
+
 		this.assets = new assetManager();
 		this.width = width;
 		this.height = height;
@@ -418,6 +427,12 @@ abstract public class Level {
 		} else if (levelMap[charY - 1][charX - 1] == ENEMY) {
 		}
 	}
+
+	// public void drawbg(Graphics g, JPanel panel) {
+    //     if (backgroundImage != null) {
+	// 		g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), panel);
+    //     }
+	// }
 	
 	abstract public void draw(Graphics g, JPanel panel);
 	

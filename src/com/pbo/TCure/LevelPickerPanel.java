@@ -1,19 +1,25 @@
 package com.pbo.TCure;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.awt.Graphics;
+import java.awt.Image;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class LevelPickerPanel extends JPanel {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2929055348276831345L;
+	private Image backgroundImage;
 
 	public LevelPickerPanel() {
-		setBackground(Color.blue); // Warna latar belakang biru
+		try {
+            // Load the background image
+            backgroundImage = ImageIO.read(getClass().getResource("/assets/bg.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 		
 		JButton BacktoMenu = new JButton("Kembali ke Menu");
 		JButton PickLevel1 = new JButton("Level 1");
@@ -56,4 +62,13 @@ public class LevelPickerPanel extends JPanel {
 		ParentPanel parent = (ParentPanel) getParent();
 		parent.levelPicker("Level4");
 	}
+
+	protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        // Draw the background image
+        if (backgroundImage != null) {
+            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+        }
+    }
 }

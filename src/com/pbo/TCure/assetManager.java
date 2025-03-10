@@ -13,7 +13,7 @@ public class assetManager {
 			player = ImageIO.read(getClass().getResource("/assets/Temp-Player.png"));
 			trap = ImageIO.read(getClass().getResource("/assets/Temp-Trap.png"));
 			door = ImageIO.read(getClass().getResource("/assets/Temp-Door.png"));
-			key = ImageIO.read(getClass().getResource("/assets/Temp-key.png"));
+			key = ImageIO.read(getClass().getResource("/assets/Temp-Key.png"));
 			win = ImageIO.read(getClass().getResource("/assets/Temp-Win.png"));
 			enemy = ImageIO.read(getClass().getResource("/assets/Temp-Enemy.png"));
 			
@@ -29,7 +29,7 @@ public class assetManager {
 			
 		} catch (Exception e) {
 			System.out.println("Error when reading Image! in assetmanager");
-			System.out.println(e.toString()); 
+			e.printStackTrace(); 
 		}	
 	}
 	public static BufferedImage getWall() {

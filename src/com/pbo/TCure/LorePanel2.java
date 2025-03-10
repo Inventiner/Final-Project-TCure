@@ -40,7 +40,7 @@ public class LorePanel2 extends JPanel {
 
         // Draw the background image
         if (backgroundImage != null) {
-            g.drawImage(backgroundImage, 0, 0, 640, 640, this);
+            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
         }
     }
 }

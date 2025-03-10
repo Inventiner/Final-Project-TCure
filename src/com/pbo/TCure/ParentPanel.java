@@ -33,6 +33,7 @@ public class ParentPanel extends JPanel{
 		cardlayout.show(this, name);
 		
 		if(name == "GameScreen") {
+			game.changeLevel(GamePanel.curr_level.RetryLevel());
 			game.startGame();
 			game.requestFocus();
 		} else if (name == "NextLevel") {

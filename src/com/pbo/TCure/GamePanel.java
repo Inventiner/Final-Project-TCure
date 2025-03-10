@@ -97,6 +97,7 @@ public class GamePanel extends JPanel implements KeyListener, MouseListener {
 		} else if(curr_level.getWin()) {
 			win();
 		} else if (curr_level.getLose()) {
+			curr_level.lose = false;
 			Lose();
 		}
 	}
@@ -125,8 +126,6 @@ public class GamePanel extends JPanel implements KeyListener, MouseListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 	
 	private void win() {

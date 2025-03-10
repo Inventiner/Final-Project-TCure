@@ -11,7 +11,7 @@ public class GameFrame extends JFrame {
 	public static ParentPanel gameCanvas;
 	
 	public GameFrame() {
-		super("TCure - Alpha Build 23.12.18");
+		super("TCure - Alpha Build 24.12.09");
 		gameCanvas = new ParentPanel(this);
 		add(gameCanvas, BorderLayout.CENTER);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

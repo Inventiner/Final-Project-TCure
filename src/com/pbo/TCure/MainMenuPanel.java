@@ -27,6 +27,7 @@ public class MainMenuPanel extends JPanel{
 		JButton startButton = new JButton("Mulai game");
 		JButton levelpicker = new JButton("Pilih Level");
 		
+		System.out.println("size: " + getSize());
         startButton.setBounds(130, 400, 150, 30);
         levelpicker.setBounds(350, 400, 150, 30);
         
@@ -51,7 +52,7 @@ public class MainMenuPanel extends JPanel{
 
         // Draw the background image
         if (backgroundImage != null) {
-            g.drawImage(backgroundImage, 0, 0, 640, 640, this);
+            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
         }
     }
 }
